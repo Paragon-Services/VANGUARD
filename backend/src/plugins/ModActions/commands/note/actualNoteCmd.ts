@@ -1,13 +1,11 @@
 import { Attachment, ChatInputCommandInteraction, Message, User } from "discord.js";
 import { GuildPluginData } from "knub";
-import { CaseTypes } from "../../../../data/CaseTypes";
 import { UnknownUser, renderUsername } from "../../../../utils";
-import { CasesPlugin } from "../../../Cases/CasesPlugin";
-import { LogsPlugin } from "../../../Logs/LogsPlugin";
 import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction";
 import { formatReasonWithMessageLinkForAttachments } from "../../functions/formatReasonForAttachments";
 import { parseReason } from "../../functions/parseReason";
 import { ModActionsPluginType } from "../../types";
+import { noteMember } from "../../functions/noteMember";
 
 export async function actualNoteCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,
@@ -25,28 +23,21 @@ export async function actualNoteCmd(
   const parsedReason = parseReason(pluginData.config.get(), note);
   const reason = await formatReasonWithMessageLinkForAttachments(pluginData, parsedReason, context, attachments);
 
-  const casesPlugin = pluginData.getPlugin(CasesPlugin);
-  const createdCase = await casesPlugin.createCase({
-    userId: user.id,
-    modId: author.id,
-    type: CaseTypes.Note,
-    reason,
-  });
+  const noteResult = await noteMember(pluginData, reason, user, { caseArgs: { modId: author.id } });
 
-  pluginData.getPlugin(LogsPlugin).logMemberNote({
-    mod: author,
-    user,
-    caseNumber: createdCase.case_number,
-    reason,
-  });
+  if (noteResult.status === "failed") {
+    const failReason = noteResult.error ? `: ${noteResult.error}` : "";
 
-  pluginData.state.common.sendSuccessMessage(
+    await pluginData.state.common.sendErrorMessage(context, `Failed to add a note to user${failReason}`);
+
+    return;
+  }
+
+  void pluginData.state.common.sendSuccessMessage(
     context,
-    `Note added on **${userName}** (Case #${createdCase.case_number})`,
+    `Note added on **${userName}** (Case #${noteResult.case.case_number})`,
     undefined,
     undefined,
     true,
   );
-
-  pluginData.state.events.emit("note", user.id, reason);
 }

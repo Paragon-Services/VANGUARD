@@ -63,7 +63,7 @@ export const zModActionsConfig = z.strictObject({
 });
 
 export interface ModActionsEvents {
-  note: (userId: string, reason?: string) => void;
+  note: (userId: string, reason?: string, isAutomodAction?: boolean) => void;
   warn: (userId: string, reason?: string, isAutomodAction?: boolean) => void;
   kick: (userId: string, reason?: string, isAutomodAction?: boolean) => void;
   ban: (userId: string, reason?: string, isAutomodAction?: boolean) => void;
@@ -108,6 +108,16 @@ export interface IIgnoredEvent {
   userId: string;
 }
 
+export type NoteResult =
+  | {
+      status: "failed";
+      error: string;
+    }
+  | {
+      status: "success";
+      case: Case;
+    };
+
 export type WarnResult =
   | {
       status: "failed";
@@ -142,6 +152,11 @@ export type BanResult =
     };
 
 export type WarnMemberNotifyRetryCallback = () => boolean | Promise<boolean>;
+
+export interface NoteOptions {
+  caseArgs?: Partial<CaseArgs> | null;
+  isAutomodAction?: boolean;
+}
 
 export interface WarnOptions {
   caseArgs?: Partial<CaseArgs> | null;

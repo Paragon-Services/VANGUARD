@@ -76,6 +76,7 @@ import { offModActionsEvent } from "./functions/offModActionsEvent";
 import { onModActionsEvent } from "./functions/onModActionsEvent";
 import { updateCase } from "./functions/updateCase";
 import { warnMember } from "./functions/warnMember";
+import { noteMember } from "./functions/noteMember";
 import { AttachmentLinkReactionType, ModActionsPluginType, modActionsSlashGroup, zModActionsConfig } from "./types";
 import { AutocompleteEvt } from "./events/AutocompleteEvt";
 
@@ -226,6 +227,7 @@ export const ModActionsPlugin = guildPlugin<ModActionsPluginType>()({
 
   public(pluginData) {
     return {
+      noteMember: makePublicFn(pluginData, noteMember),
       warnMember: makePublicFn(pluginData, warnMember),
       kickMember: makePublicFn(pluginData, kickMember),
       banUserId: makePublicFn(pluginData, banUserId),

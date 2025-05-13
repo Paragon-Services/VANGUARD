@@ -20,9 +20,11 @@ import { SetCounterAction } from "./setCounter";
 import { SetSlowmodeAction } from "./setSlowmode";
 import { StartThreadAction } from "./startThread";
 import { WarnAction } from "./warn";
+import { NoteAction } from "./note";
 
 export const availableActions = {
   clean: CleanAction,
+  note: NoteAction,
   warn: WarnAction,
   mute: MuteAction,
   kick: KickAction,
