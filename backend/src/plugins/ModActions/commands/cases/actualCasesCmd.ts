@@ -1,10 +1,9 @@
 import { APIEmbed, ChatInputCommandInteraction, GuildMember, Message, User } from "discord.js";
 import { GuildPluginData } from "knub";
-import { ILike, In } from "typeorm";
-import { FindOptionsWhere } from "typeorm/find-options/FindOptionsWhere";
-import { CaseTypes } from "../../../../data/CaseTypes";
-import { Case } from "../../../../data/entities/Case";
-import { areCasesGlobal, sendContextResponse } from "../../../../pluginUtils";
+import { ILike, FindOptionsWhere, In } from "typeorm";
+import { CaseTypes } from "../../../../data/CaseTypes.js";
+import { Case } from "../../../../data/entities/Case.js";
+import { areCasesGlobal, sendContextResponse } from "../../../../pluginUtils.js";
 import {
   UnknownUser,
   chunkArray,
@@ -13,12 +12,12 @@ import {
   resolveMember,
   resolveUser,
   trimLines,
-} from "../../../../utils";
-import { asyncMap } from "../../../../utils/async";
-import { createPaginatedMessage } from "../../../../utils/createPaginatedMessage";
-import { getGuildPrefix } from "../../../../utils/getGuildPrefix";
-import { CasesPlugin } from "../../../Cases/CasesPlugin";
-import { ModActionsPluginType } from "../../types";
+} from "../../../../utils.js";
+import { asyncMap } from "../../../../utils/async.js";
+import { createPaginatedMessage } from "../../../../utils/createPaginatedMessage.js";
+import { getGuildPrefix } from "../../../../utils/getGuildPrefix.js";
+import { CasesPlugin } from "../../../Cases/CasesPlugin.js";
+import { ModActionsPluginType } from "../../types.js";
 
 const casesPerPage = 5;
 const maxExpandedCases = 8;
@@ -42,8 +41,8 @@ async function sendExpandedCases(
   const casesPlugin = pluginData.getPlugin(CasesPlugin);
 
   for (const theCase of cases) {
-    const embed = await casesPlugin.getCaseEmbed(theCase.id);
-    await sendContextResponse(context, { ...embed, ephemeral: !show });
+    const content = await casesPlugin.getCaseEmbed(theCase.id);
+    await sendContextResponse(context, content, !show);
   }
 }
 

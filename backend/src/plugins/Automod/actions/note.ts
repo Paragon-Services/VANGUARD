@@ -1,7 +1,7 @@
-import z from "zod";
-import { asyncMap, nonNullish, resolveMember, unique, zBoundedCharacters } from "../../../utils";
-import { automodAction } from "../helpers";
-import { ModActionsPlugin } from "../../ModActions/ModActionsPlugin";
+import z from "zod/v4";
+import { asyncMap, nonNullish, resolveMember, unique, zBoundedCharacters } from "../../../utils.js";
+import { automodAction } from "../helpers.js";
+import { ModActionsPlugin } from "../../ModActions/ModActionsPlugin.js";
 
 export const NoteAction = automodAction({
   configSchema: z.strictObject({

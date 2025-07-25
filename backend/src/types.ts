@@ -1,6 +1,6 @@
-import { Knub } from "knub";
-import z, { ZodTypeAny } from "zod";
-import { zSnowflake } from "./utils";
+import { GlobalPluginBlueprint, GuildPluginBlueprint, Knub } from "knub";
+import z from "zod/v4";
+import { zSnowflake } from "./utils.js";
 
 export const zZeppelinGuildConfig = z.strictObject({
   // From BaseConfig
@@ -16,14 +16,27 @@ export type TZeppelinKnub = Knub;
  */
 export type TMarkdown = string;
 
-export interface ZeppelinPluginInfo {
-  showInDocs: boolean;
-  prettyName: string;
+export interface ZeppelinGuildPluginInfo {
+  plugin: GuildPluginBlueprint<any, any>;
+  docs: ZeppelinPluginDocs;
+  autoload?: boolean;
+}
+
+export interface ZeppelinGlobalPluginInfo {
+  plugin: GlobalPluginBlueprint<any, any>;
+  docs: ZeppelinPluginDocs;
+}
+
+export type DocsPluginType = "stable" | "legacy" | "internal";
+
+export interface ZeppelinPluginDocs {
+  type: DocsPluginType;
+  configSchema: z.ZodType;
+
+  prettyName?: string;
   description?: TMarkdown;
   usageGuide?: TMarkdown;
   configurationGuide?: TMarkdown;
-  legacy?: boolean;
-  configSchema?: ZodTypeAny;
 }
 
 export interface CommandInfo {

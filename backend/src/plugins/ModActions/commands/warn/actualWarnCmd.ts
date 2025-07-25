@@ -1,17 +1,17 @@
 import { Attachment, ChatInputCommandInteraction, GuildMember, Message, User } from "discord.js";
 import { GuildPluginData } from "knub";
-import { CaseTypes } from "../../../../data/CaseTypes";
-import { UserNotificationMethod, renderUsername, UnknownUser } from "../../../../utils";
-import { waitForButtonConfirm } from "../../../../utils/waitForInteraction";
-import { CasesPlugin } from "../../../Cases/CasesPlugin";
-import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction";
+import { CaseTypes } from "../../../../data/CaseTypes.js";
+import { UserNotificationMethod, renderUsername, UnknownUser } from "../../../../utils.js";
+import { waitForButtonConfirm } from "../../../../utils/waitForInteraction.js";
+import { CasesPlugin } from "../../../Cases/CasesPlugin.js";
+import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction.js";
 import {
   formatReasonWithAttachments,
   formatReasonWithMessageLinkForAttachments,
-} from "../../functions/formatReasonForAttachments";
-import { warnMember } from "../../functions/warnMember";
-import { parseReason } from "../../functions/parseReason";
-import { ModActionsPluginType } from "../../types";
+} from "../../functions/formatReasonForAttachments.js";
+import { warnMember } from "../../functions/warnMember.js";
+import { parseReason } from "../../functions/parseReason.js";
+import { ModActionsPluginType } from "../../types.js";
 
 export async function actualWarnCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,

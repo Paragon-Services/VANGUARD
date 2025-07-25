@@ -1,10 +1,10 @@
-import { slashOptions } from "knub";
-import { actualMassKickCmd } from "./actualMassKickCmd";
-import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions";
-import { NUMBER_ATTACHMENTS_CASE_CREATION } from "../constants";
-import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete";
-import { modActionsSlashCmd } from "../../types";
 import { GuildMember } from "discord.js";
+import { slashOptions } from "knub";
+import { actualMassKickCmd } from "./actualMassKickCmd.js";
+import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions.js";
+import { NUMBER_ATTACHMENTS_CASE_CREATION } from "../constants.js";
+import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete.js";
+import { modActionsSlashCmd } from "../../types.js";
 
 const opts = [
   {

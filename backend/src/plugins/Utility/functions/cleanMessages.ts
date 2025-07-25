@@ -1,15 +1,15 @@
-import { Snowflake, TextChannel, User } from "discord.js";
+import { GuildBasedChannel, Snowflake, TextBasedChannel, User } from "discord.js";
 import { GuildPluginData } from "knub";
-import { LogType } from "../../../data/LogType";
-import { SavedMessage } from "../../../data/entities/SavedMessage";
-import { getDashboardUrl } from "../../../pluginUtils";
-import { chunkArray } from "../../../utils";
-import { LogsPlugin } from "../../Logs/LogsPlugin";
-import { UtilityPluginType } from "../types";
+import { SavedMessage } from "../../../data/entities/SavedMessage.js";
+import { LogType } from "../../../data/LogType.js";
+import { getDashboardUrl } from "../../../pluginUtils.js";
+import { chunkArray } from "../../../utils.js";
+import { LogsPlugin } from "../../Logs/LogsPlugin.js";
+import { UtilityPluginType } from "../types.js";
 
 export async function cleanMessages(
   pluginData: GuildPluginData<UtilityPluginType>,
-  channel: TextChannel,
+  channel: GuildBasedChannel & TextBasedChannel,
   savedMessages: SavedMessage[],
   mod: User,
 ) {

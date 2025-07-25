@@ -1,13 +1,13 @@
 import { APIEmbed, MessageMentionTypes, Snowflake } from "discord.js";
 import { GuildPluginData } from "knub";
-import { allowTimeout } from "../../../RegExpRunner";
-import { LogType } from "../../../data/LogType";
-import { TypedTemplateSafeValueContainer } from "../../../templateFormatter";
-import { MINUTES, isDiscordAPIError } from "../../../utils";
-import { MessageBuffer } from "../../../utils/MessageBuffer";
-import { InternalPosterPlugin } from "../../InternalPoster/InternalPosterPlugin";
-import { ILogTypeData, LogsPluginType, TLogChannel, TLogChannelMap } from "../types";
-import { getLogMessage } from "./getLogMessage";
+import { allowTimeout } from "../../../RegExpRunner.js";
+import { LogType } from "../../../data/LogType.js";
+import { TypedTemplateSafeValueContainer } from "../../../templateFormatter.js";
+import { MINUTES, inputPatternToRegExp, isDiscordAPIError } from "../../../utils.js";
+import { MessageBuffer } from "../../../utils/MessageBuffer.js";
+import { InternalPosterPlugin } from "../../InternalPoster/InternalPosterPlugin.js";
+import { ILogTypeData, LogsPluginType, TLogChannel, TLogChannelMap } from "../types.js";
+import { getLogMessage } from "./getLogMessage.js";
 
 interface ExclusionData {
   userId?: Snowflake | null;
@@ -57,7 +57,8 @@ async function shouldExclude(
   }
 
   if (opts.excluded_message_regexes && exclusionData.messageTextContent) {
-    for (const regex of opts.excluded_message_regexes) {
+    for (const pattern of opts.excluded_message_regexes) {
+      const regex = inputPatternToRegExp(pattern);
       const matches = await pluginData.state.regexRunner
         .exec(regex, exclusionData.messageTextContent)
         .catch(allowTimeout);

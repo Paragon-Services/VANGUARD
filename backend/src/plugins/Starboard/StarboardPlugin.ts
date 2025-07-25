@@ -1,21 +1,19 @@
-import { PluginOptions, guildPlugin } from "knub";
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
-import { GuildStarboardMessages } from "../../data/GuildStarboardMessages";
-import { GuildStarboardReactions } from "../../data/GuildStarboardReactions";
-import { CommonPlugin } from "../Common/CommonPlugin";
-import { MigratePinsCmd } from "./commands/MigratePinsCmd";
-import { StarboardReactionAddEvt } from "./events/StarboardReactionAddEvt";
-import { StarboardReactionRemoveAllEvt, StarboardReactionRemoveEvt } from "./events/StarboardReactionRemoveEvts";
-import { StarboardPluginType, zStarboardConfig } from "./types";
-import { onMessageDelete } from "./util/onMessageDelete";
+import { guildPlugin } from "knub";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { GuildStarboardMessages } from "../../data/GuildStarboardMessages.js";
+import { GuildStarboardReactions } from "../../data/GuildStarboardReactions.js";
+import { CommonPlugin } from "../Common/CommonPlugin.js";
+import { MigratePinsCmd } from "./commands/MigratePinsCmd.js";
+import { StarboardReactionAddEvt } from "./events/StarboardReactionAddEvt.js";
+import { StarboardReactionRemoveAllEvt, StarboardReactionRemoveEvt } from "./events/StarboardReactionRemoveEvts.js";
+import { StarboardPluginType, zStarboardConfig } from "./types.js";
+import { onMessageDelete } from "./util/onMessageDelete.js";
 
-const defaultOptions: PluginOptions<StarboardPluginType> = {
-  config: {
-    can_migrate: false,
-    boards: {},
-  },
+export const StarboardPlugin = guildPlugin<StarboardPluginType>()({
+  name: "starboard",
 
-  overrides: [
+  configSchema: zStarboardConfig,
+  defaultOverrides: [
     {
       level: ">=100",
       config: {
@@ -23,13 +21,6 @@ const defaultOptions: PluginOptions<StarboardPluginType> = {
       },
     },
   ],
-};
-
-export const StarboardPlugin = guildPlugin<StarboardPluginType>()({
-  name: "starboard",
-
-  configParser: (input) => zStarboardConfig.parse(input),
-  defaultOptions,
 
   // prettier-ignore
   messageCommands: [

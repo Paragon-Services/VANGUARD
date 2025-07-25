@@ -1,22 +1,15 @@
-import { PluginOptions, guildPlugin } from "knub";
-import z from "zod";
-import { Queue } from "../../Queue";
-import { Webhooks } from "../../data/Webhooks";
-import { makePublicFn } from "../../pluginUtils";
-import { editMessage } from "./functions/editMessage";
-import { sendMessage } from "./functions/sendMessage";
-import { InternalPosterPluginType } from "./types";
-
-const defaultOptions: PluginOptions<InternalPosterPluginType> = {
-  config: {},
-  overrides: [],
-};
+import { guildPlugin } from "knub";
+import { Queue } from "../../Queue.js";
+import { Webhooks } from "../../data/Webhooks.js";
+import { makePublicFn } from "../../pluginUtils.js";
+import { editMessage } from "./functions/editMessage.js";
+import { sendMessage } from "./functions/sendMessage.js";
+import { InternalPosterPluginType, zInternalPosterConfig } from "./types.js";
 
 export const InternalPosterPlugin = guildPlugin<InternalPosterPluginType>()({
   name: "internal_poster",
 
-  configParser: (input) => z.strictObject({}).parse(input),
-  defaultOptions,
+  configSchema: zInternalPosterConfig,
 
   public(pluginData) {
     return {

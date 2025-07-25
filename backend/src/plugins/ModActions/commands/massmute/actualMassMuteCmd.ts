@@ -1,17 +1,18 @@
 import { Attachment, ChatInputCommandInteraction, GuildMember, Message, Snowflake } from "discord.js";
 import { GuildPluginData } from "knub";
-import { LogType } from "../../../../data/LogType";
-import { logger } from "../../../../logger";
-import { canActOn, isContextInteraction, sendContextResponse } from "../../../../pluginUtils";
-import { LogsPlugin } from "../../../Logs/LogsPlugin";
-import { MutesPlugin } from "../../../Mutes/MutesPlugin";
-import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction";
+import { LogType } from "../../../../data/LogType.js";
+import { logger } from "../../../../logger.js";
+import { canActOn, deleteContextResponse, isContextInteraction, sendContextResponse } from "../../../../pluginUtils.js";
+import { noop } from "../../../../utils.js";
+import { LogsPlugin } from "../../../Logs/LogsPlugin.js";
+import { MutesPlugin } from "../../../Mutes/MutesPlugin.js";
+import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction.js";
 import {
   formatReasonWithAttachments,
   formatReasonWithMessageLinkForAttachments,
-} from "../../functions/formatReasonForAttachments";
-import { parseReason } from "../../functions/parseReason";
-import { ModActionsPluginType } from "../../types";
+} from "../../functions/formatReasonForAttachments.js";
+import { parseReason } from "../../functions/parseReason.js";
+import { ModActionsPluginType } from "../../types.js";
 
 export async function actualMassMuteCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,
@@ -52,7 +53,7 @@ export async function actualMassMuteCmd(
   });
 
   // Show loading indicator
-  const loadingMsg = await sendContextResponse(context, { content: "Muting...", ephemeral: true });
+  const loadingMsg = await sendContextResponse(context, "Muting...", true);
 
   // Mute everyone and count fails
   const modId = author.id;
@@ -73,7 +74,7 @@ export async function actualMassMuteCmd(
 
   if (!isContextInteraction(context)) {
     // Clear loading indicator
-    loadingMsg.delete();
+    deleteContextResponse(loadingMsg).catch(noop);
   }
 
   const successfulMuteCount = userIds.length - failedMutes.length;

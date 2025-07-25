@@ -1,5 +1,5 @@
 import seedrandom from "seedrandom";
-import { get, has } from "./utils";
+import { get, has } from "./utils.js";
 
 const TEMPLATE_CACHE_SIZE = 200;
 const templateCache: Map<string, ParsedTemplate> = new Map();
@@ -525,7 +525,7 @@ export async function renderTemplate(
 
     // If our template cache is full, delete the first item
     if (templateCache.size >= TEMPLATE_CACHE_SIZE) {
-      const firstKey = templateCache.keys().next().value;
+      const firstKey = templateCache.keys().next().value!;
       templateCache.delete(firstKey);
     }
 

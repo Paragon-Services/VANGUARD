@@ -1,8 +1,8 @@
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import { z } from "zod";
-import { rootDir } from "./paths";
+import { z } from "zod/v4";
+import { rootDir } from "./paths.js";
 
 const envType = z.object({
   KEY: z.string().length(32),
@@ -37,6 +37,10 @@ const envType = z.object({
     .optional(),
 
   PHISHERMAN_API_KEY: z.string().optional(),
+  FISHFISH_API_KEY: z.string().optional(),
+
+  DEFAULT_SUCCESS_EMOJI: z.string().optional().default("✅"),
+  DEFAULT_ERROR_EMOJI: z.string().optional().default("❌"),
 
   DB_HOST: z.string().optional(),
   DB_PORT: z.preprocess((v) => Number(v), z.number()).optional(),

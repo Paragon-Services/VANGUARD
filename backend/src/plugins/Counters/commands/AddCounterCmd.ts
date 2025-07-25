@@ -1,10 +1,10 @@
 import { Snowflake, TextChannel } from "discord.js";
 import { guildPluginMessageCommand } from "knub";
 import { waitForReply } from "knub/helpers";
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { UnknownUser, resolveUser } from "../../../utils";
-import { changeCounterValue } from "../functions/changeCounterValue";
-import { CountersPluginType } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { UnknownUser, resolveUser } from "../../../utils.js";
+import { changeCounterValue } from "../functions/changeCounterValue.js";
+import { CountersPluginType } from "../types.js";
 
 export const AddCounterCmd = guildPluginMessageCommand<CountersPluginType>()({
   trigger: ["counters add", "counter add", "addcounter"],
@@ -119,18 +119,21 @@ export const AddCounterCmd = guildPluginMessageCommand<CountersPluginType>()({
 
     await changeCounterValue(pluginData, args.counterName, channel?.id ?? null, user?.id ?? null, amount);
     const newValue = await pluginData.state.counters.getCurrentValue(counterId, channel?.id ?? null, user?.id ?? null);
-    const counterName = counter.name || args.counterName;
 
     if (channel && user) {
       message.channel.send(
-        `Added ${amount} to **${counterName}** for <@!${user.id}> in <#${channel.id}>. The value is now ${newValue}.`,
+        `Added ${amount} to **${args.counterName}** for <@!${user.id}> in <#${channel.id}>. The value is now ${newValue}.`,
       );
     } else if (channel) {
-      message.channel.send(`Added ${amount} to **${counterName}** in <#${channel.id}>. The value is now ${newValue}.`);
+      message.channel.send(
+        `Added ${amount} to **${args.counterName}** in <#${channel.id}>. The value is now ${newValue}.`,
+      );
     } else if (user) {
-      message.channel.send(`Added ${amount} to **${counterName}** for <@!${user.id}>. The value is now ${newValue}.`);
+      message.channel.send(
+        `Added ${amount} to **${args.counterName}** for <@!${user.id}>. The value is now ${newValue}.`,
+      );
     } else {
-      message.channel.send(`Added ${amount} to **${counterName}**. The value is now ${newValue}.`);
+      message.channel.send(`Added ${amount} to **${args.counterName}**. The value is now ${newValue}.`);
     }
   },
 });

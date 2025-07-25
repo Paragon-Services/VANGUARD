@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
 import moment from "moment-timezone";
-import { GuildArchives } from "../data/GuildArchives";
-import { env } from "../env";
-import { simpleDiscordAPIRequest } from "./auth";
-import { notFound } from "./responses";
+import { GuildArchives } from "../data/GuildArchives.js";
+import { env } from "../env.js";
+import { simpleDiscordAPIRequest } from "./auth.js";
+import { notFound } from "./responses.js";
 
 export function initArchives(router: express.Router) {
   const archives = new GuildArchives(null);

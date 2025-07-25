@@ -1,7 +1,7 @@
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { clearExpiringVCAlert } from "../../../data/loops/expiringVCAlertsLoop";
-import { createChunkedMessage, sorter } from "../../../utils";
-import { locateUserCmd } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { clearExpiringVCAlert } from "../../../data/loops/expiringVCAlertsLoop.js";
+import { createChunkedMessage, sorter } from "../../../utils.js";
+import { locateUserCmd } from "../types.js";
 
 export const ListFollowCmd = locateUserCmd({
   trigger: ["follows", "fs"],
@@ -10,7 +10,7 @@ export const ListFollowCmd = locateUserCmd({
   permission: "can_alert",
 
   async run({ message: msg, pluginData }) {
-    const alerts = await pluginData.state.alerts.getAlertsByRequestorId(msg.member.id);
+    const alerts = await pluginData.state.alerts.getAlertsByRequestorId(msg.author.id);
     if (alerts.length === 0) {
       void pluginData.state.common.sendErrorMessage(msg, "You have no active alerts!");
       return;
@@ -41,7 +41,7 @@ export const DeleteFollowCmd = locateUserCmd({
   },
 
   async run({ message: msg, args, pluginData }) {
-    const alerts = await pluginData.state.alerts.getAlertsByRequestorId(msg.member.id);
+    const alerts = await pluginData.state.alerts.getAlertsByRequestorId(msg.author.id);
     alerts.sort(sorter("expires_at"));
 
     if (args.num > alerts.length || args.num <= 0) {

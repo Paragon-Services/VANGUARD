@@ -1,8 +1,8 @@
 import { ChatInputCommandInteraction, Message } from "discord.js";
 import { GuildPluginData } from "knub";
-import { areCasesGlobal, sendContextResponse } from "../../../../pluginUtils";
-import { CasesPlugin } from "../../../Cases/CasesPlugin";
-import { ModActionsPluginType } from "../../types";
+import { areCasesGlobal, sendContextResponse } from "../../../../pluginUtils.js";
+import { CasesPlugin } from "../../../Cases/CasesPlugin.js";
+import { ModActionsPluginType } from "../../types.js";
 
 export async function actualCaseCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,
@@ -19,7 +19,7 @@ export async function actualCaseCmd(
   }
 
   const casesPlugin = pluginData.getPlugin(CasesPlugin);
-  const embed = await casesPlugin.getCaseEmbed(theCase.id, authorId);
+  const content = await casesPlugin.getCaseEmbed(theCase.id, authorId);
 
-  void sendContextResponse(context, { ...embed, ephemeral: show !== true });
+  void sendContextResponse(context, content, show !== true);
 }

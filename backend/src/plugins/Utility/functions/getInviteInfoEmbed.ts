@@ -2,7 +2,6 @@ import { APIEmbed, ChannelType } from "discord.js";
 import { GuildPluginData } from "knub";
 import {
   EmbedWith,
-  GroupDMInvite,
   formatNumber,
   inviteHasCounts,
   isGroupDMInvite,
@@ -11,9 +10,9 @@ import {
   renderUsername,
   resolveInvite,
   trimLines,
-} from "../../../utils";
-import { snowflakeToTimestamp } from "../../../utils/snowflakeToTimestamp";
-import { UtilityPluginType } from "../types";
+} from "../../../utils.js";
+import { snowflakeToTimestamp } from "../../../utils/snowflakeToTimestamp.js";
+import { UtilityPluginType } from "../types.js";
 
 export async function getInviteInfoEmbed(
   pluginData: GuildPluginData<UtilityPluginType>,
@@ -100,9 +99,8 @@ export async function getInviteInfoEmbed(
       fields: [],
     };
 
-    invite = invite as GroupDMInvite;
     embed.author = {
-      name: invite.channel!.name ? `Group DM invite:  ${invite.channel!.name}` : `Group DM invite`,
+      name: invite.channel.name ? `Group DM invite:  ${invite.channel.name}` : `Group DM invite`,
       url: `https://discord.gg/${invite.code}`,
     }; // FIXME pending invite re-think
 

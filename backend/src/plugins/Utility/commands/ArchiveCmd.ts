@@ -1,8 +1,8 @@
 import { GuildPluginData } from "knub";
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { SavedMessage } from "../../../data/entities/SavedMessage";
-import { getDashboardUrl } from "../../../pluginUtils";
-import { utilityCmd, UtilityPluginType } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { SavedMessage } from "../../../data/entities/SavedMessage.js";
+import { getDashboardUrl } from "../../../pluginUtils.js";
+import { utilityCmd, UtilityPluginType } from "../types.js";
 
 const DEFAULT_COUNT = 50;
 const MAX_COUNT = 1000;

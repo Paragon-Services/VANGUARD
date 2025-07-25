@@ -1,16 +1,21 @@
-import { PluginOptions, guildPlugin } from "knub";
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
-import { CommonPlugin } from "../Common/CommonPlugin";
-import { SaveMessagesToDBCmd } from "./commands/SaveMessagesToDB";
-import { SavePinsToDBCmd } from "./commands/SavePinsToDB";
-import { MessageCreateEvt, MessageDeleteBulkEvt, MessageDeleteEvt, MessageUpdateEvt } from "./events/SaveMessagesEvts";
-import { MessageSaverPluginType, zMessageSaverConfig } from "./types";
+import { guildPlugin } from "knub";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { CommonPlugin } from "../Common/CommonPlugin.js";
+import { SaveMessagesToDBCmd } from "./commands/SaveMessagesToDB.js";
+import { SavePinsToDBCmd } from "./commands/SavePinsToDB.js";
+import {
+  MessageCreateEvt,
+  MessageDeleteBulkEvt,
+  MessageDeleteEvt,
+  MessageUpdateEvt,
+} from "./events/SaveMessagesEvts.js";
+import { MessageSaverPluginType, zMessageSaverConfig } from "./types.js";
 
-const defaultOptions: PluginOptions<MessageSaverPluginType> = {
-  config: {
-    can_manage: false,
-  },
-  overrides: [
+export const MessageSaverPlugin = guildPlugin<MessageSaverPluginType>()({
+  name: "message_saver",
+
+  configSchema: zMessageSaverConfig,
+  defaultOverrides: [
     {
       level: ">=100",
       config: {
@@ -18,13 +23,6 @@ const defaultOptions: PluginOptions<MessageSaverPluginType> = {
       },
     },
   ],
-};
-
-export const MessageSaverPlugin = guildPlugin<MessageSaverPluginType>()({
-  name: "message_saver",
-
-  configParser: (input) => zMessageSaverConfig.parse(input),
-  defaultOptions,
 
   // prettier-ignore
   messageCommands: [

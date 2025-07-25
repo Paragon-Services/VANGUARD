@@ -1,11 +1,11 @@
 import { Message, TextChannel } from "discord.js";
 import { GuildPluginData } from "knub";
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { humanizeDurationShort } from "../../../humanizeDurationShort";
-import { canActOn } from "../../../pluginUtils";
-import { DAYS, HOURS, SECONDS, noop, resolveMember } from "../../../utils";
-import { cleanMessages } from "../functions/cleanMessages";
-import { UtilityPluginType, utilityCmd } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { humanizeDurationShort } from "../../../humanizeDuration.js";
+import { canActOn } from "../../../pluginUtils.js";
+import { DAYS, HOURS, SECONDS, noop, resolveMember } from "../../../utils.js";
+import { cleanMessages } from "../functions/cleanMessages.js";
+import { UtilityPluginType, utilityCmd } from "../types.js";
 
 const MAX_NUKE_TIME = 1 * DAYS;
 const DEFAULT_NUKE_TIME = 2 * HOURS;
@@ -60,7 +60,7 @@ export const NukeCmd = utilityCmd({
 
     const memberToNuke = await resolveMember(pluginData.client, pluginData.guild, args.user);
 
-    if (memberToNuke && !canActOn(pluginData, msg.member, memberToNuke)) {
+    if (memberToNuke && !canActOn(pluginData, msg.member!, memberToNuke)) {
       pluginData.state.common.sendErrorMessage(msg, `You cannot nuke this member's messages.`);
       return;
     }

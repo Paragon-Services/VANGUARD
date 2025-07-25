@@ -1,14 +1,14 @@
 import { ChannelType, GuildMember } from "discord.js";
 import { slashOptions } from "knub";
-import { canActOn, hasPermission } from "../../../../pluginUtils";
-import { UserNotificationMethod, resolveMember } from "../../../../utils";
-import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions";
-import { isBanned } from "../../functions/isBanned";
-import { readContactMethodsFromArgs } from "../../functions/readContactMethodsFromArgs";
-import { modActionsSlashCmd } from "../../types";
-import { NUMBER_ATTACHMENTS_CASE_CREATION } from "../constants";
-import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete";
-import { actualWarnCmd } from "./actualWarnCmd";
+import { canActOn, hasPermission } from "../../../../pluginUtils.js";
+import { UserNotificationMethod, resolveMember } from "../../../../utils.js";
+import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions.js";
+import { isBanned } from "../../functions/isBanned.js";
+import { readContactMethodsFromArgs } from "../../functions/readContactMethodsFromArgs.js";
+import { modActionsSlashCmd } from "../../types.js";
+import { NUMBER_ATTACHMENTS_CASE_CREATION } from "../constants.js";
+import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete.js";
+import { actualWarnCmd } from "./actualWarnCmd.js";
 
 const opts = [
   {

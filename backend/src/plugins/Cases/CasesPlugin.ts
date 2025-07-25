@@ -1,48 +1,31 @@
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
 import { guildPlugin } from "knub";
-import { GuildArchives } from "../../data/GuildArchives";
-import { GuildCases } from "../../data/GuildCases";
-import { GuildLogs } from "../../data/GuildLogs";
-import { makePublicFn } from "../../pluginUtils";
-import { InternalPosterPlugin } from "../InternalPoster/InternalPosterPlugin";
-import { TimeAndDatePlugin } from "../TimeAndDate/TimeAndDatePlugin";
-import { createCase } from "./functions/createCase";
-import { createCaseNote } from "./functions/createCaseNote";
-import { getCaseEmbed } from "./functions/getCaseEmbed";
-import { getCaseSummary } from "./functions/getCaseSummary";
-import { getCaseTypeAmountForUserId } from "./functions/getCaseTypeAmountForUserId";
-import { getRecentCasesByMod } from "./functions/getRecentCasesByMod";
-import { getTotalCasesByMod } from "./functions/getTotalCasesByMod";
-import { postCaseToCaseLogChannel } from "./functions/postToCaseLogChannel";
-import { CasesPluginType, zCasesConfig } from "./types";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { GuildArchives } from "../../data/GuildArchives.js";
+import { GuildCases } from "../../data/GuildCases.js";
+import { GuildLogs } from "../../data/GuildLogs.js";
+import { makePublicFn } from "../../pluginUtils.js";
+import { InternalPosterPlugin } from "../InternalPoster/InternalPosterPlugin.js";
+import { TimeAndDatePlugin } from "../TimeAndDate/TimeAndDatePlugin.js";
+import { createCase } from "./functions/createCase.js";
+import { createCaseNote } from "./functions/createCaseNote.js";
+import { getCaseEmbed } from "./functions/getCaseEmbed.js";
+import { getCaseSummary } from "./functions/getCaseSummary.js";
+import { getCaseTypeAmountForUserId } from "./functions/getCaseTypeAmountForUserId.js";
+import { getRecentCasesByMod } from "./functions/getRecentCasesByMod.js";
+import { getTotalCasesByMod } from "./functions/getTotalCasesByMod.js";
+import { postCaseToCaseLogChannel } from "./functions/postToCaseLogChannel.js";
+import { CasesPluginType, zCasesConfig } from "./types.js";
 
 // The `any` cast here is to prevent TypeScript from locking up from the circular dependency
 function getLogsPlugin(): Promise<any> {
   return import("../Logs/LogsPlugin.js") as Promise<any>;
 }
 
-const defaultOptions = {
-  config: {
-    log_automatic_actions: true,
-    case_log_channel: null,
-    show_relative_times: true,
-    relative_time_cutoff: "7d",
-    guild_aliases: null,
-    case_colors: null,
-    case_icons: null,
-    log_each_massban_case: false,
-    log_each_massunban_case: false,
-    embed_colour: 0x2b2d31,
-    embed_color: 0x2b2d31,
-  },
-};
-
 export const CasesPlugin = guildPlugin<CasesPluginType>()({
   name: "cases",
 
   dependencies: async () => [TimeAndDatePlugin, InternalPosterPlugin, (await getLogsPlugin()).LogsPlugin],
-  configParser: (input) => zCasesConfig.parse(input),
-  defaultOptions,
+  configSchema: zCasesConfig,
 
   public(pluginData) {
     return {

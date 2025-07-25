@@ -1,8 +1,8 @@
-import { commandTypeHelpers as ct } from "../../../../commandTypes";
-import { canActOn, hasPermission } from "../../../../pluginUtils";
-import { resolveMember, resolveUser } from "../../../../utils";
-import { modActionsMsgCmd } from "../../types";
-import { actualUnmuteCmd } from "../unmute/actualUnmuteCmd";
+import { commandTypeHelpers as ct } from "../../../../commandTypes.js";
+import { canActOn, hasPermission, resolveMessageMember } from "../../../../pluginUtils.js";
+import { resolveMember, resolveUser } from "../../../../utils.js";
+import { modActionsMsgCmd } from "../../types.js";
+import { actualUnmuteCmd } from "../unmute/actualUnmuteCmd.js";
 
 const opts = {
   mod: ct.member({ option: true }),
@@ -42,17 +42,17 @@ export const ForceUnmuteMsgCmd = modActionsMsgCmd({
       return;
     }
 
-    // Find the server member to unmute
+    const authorMember = await resolveMessageMember(msg);
     const memberToUnmute = await resolveMember(pluginData.client, pluginData.guild, user.id);
 
     // Make sure we're allowed to unmute this member
-    if (memberToUnmute && !canActOn(pluginData, msg.member, memberToUnmute)) {
+    if (memberToUnmute && !canActOn(pluginData, authorMember, memberToUnmute)) {
       pluginData.state.common.sendErrorMessage(msg, "Cannot unmute: insufficient permissions");
       return;
     }
 
     // The moderator who did the action is the message author or, if used, the specified -mod
-    let mod = msg.member;
+    let mod = authorMember;
     let ppId: string | undefined;
 
     if (args.mod) {

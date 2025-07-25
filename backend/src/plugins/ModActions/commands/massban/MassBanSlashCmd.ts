@@ -1,10 +1,10 @@
 import { GuildMember } from "discord.js";
 import { slashOptions } from "knub";
-import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions";
-import { modActionsSlashCmd } from "../../types";
-import { NUMBER_ATTACHMENTS_CASE_CREATION } from "../constants";
-import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete";
-import { actualMassBanCmd } from "./actualMassBanCmd";
+import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions.js";
+import { modActionsSlashCmd } from "../../types.js";
+import { NUMBER_ATTACHMENTS_CASE_CREATION } from "../constants.js";
+import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete.js";
+import { actualMassBanCmd } from "./actualMassBanCmd.js";
 
 const opts = [
   {

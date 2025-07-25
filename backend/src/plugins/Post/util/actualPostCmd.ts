@@ -1,14 +1,14 @@
 import { GuildTextBasedChannel, Message } from "discord.js";
-import humanizeDuration from "humanize-duration";
 import { GuildPluginData } from "knub";
 import moment from "moment-timezone";
-import { registerUpcomingScheduledPost } from "../../../data/loops/upcomingScheduledPostsLoop";
-import { DBDateFormat, MINUTES, StrictMessageContent, errorMessage, renderUsername } from "../../../utils";
-import { LogsPlugin } from "../../Logs/LogsPlugin";
-import { TimeAndDatePlugin } from "../../TimeAndDate/TimeAndDatePlugin";
-import { PostPluginType } from "../types";
-import { parseScheduleTime } from "./parseScheduleTime";
-import { postMessage } from "./postMessage";
+import { registerUpcomingScheduledPost } from "../../../data/loops/upcomingScheduledPostsLoop.js";
+import { humanizeDuration } from "../../../humanizeDuration.js";
+import { DBDateFormat, MINUTES, StrictMessageContent, errorMessage, renderUsername } from "../../../utils.js";
+import { LogsPlugin } from "../../Logs/LogsPlugin.js";
+import { TimeAndDatePlugin } from "../../TimeAndDate/TimeAndDatePlugin.js";
+import { PostPluginType } from "../types.js";
+import { parseScheduleTime } from "./parseScheduleTime.js";
+import { postMessage } from "./postMessage.js";
 
 const MIN_REPEAT_TIME = 5 * MINUTES;
 const MAX_REPEAT_TIME = Math.pow(2, 32);
@@ -27,13 +27,13 @@ export async function actualPostCmd(
     "repeat-times"?: number;
   } = {},
 ) {
-  if (!targetChannel.isTextBased()) {
-    msg.channel.send(errorMessage("Specified channel is not a text-based channel"));
+  if (!targetChannel.isSendable()) {
+    msg.reply(errorMessage("Specified channel is not a sendable channel"));
     return;
   }
 
   if (content == null && msg.attachments.size === 0) {
-    msg.channel.send(errorMessage("Message content or attachment required"));
+    msg.reply(errorMessage("Message content or attachment required"));
     return;
   }
 

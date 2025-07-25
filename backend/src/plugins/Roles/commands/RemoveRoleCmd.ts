@@ -1,10 +1,10 @@
 import { GuildChannel } from "discord.js";
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { canActOn } from "../../../pluginUtils";
-import { resolveRoleId, verboseUserMention } from "../../../utils";
-import { LogsPlugin } from "../../Logs/LogsPlugin";
-import { RoleManagerPlugin } from "../../RoleManager/RoleManagerPlugin";
-import { rolesCmd } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { canActOn, resolveMessageMember } from "../../../pluginUtils.js";
+import { resolveRoleId, verboseUserMention } from "../../../utils.js";
+import { LogsPlugin } from "../../Logs/LogsPlugin.js";
+import { RoleManagerPlugin } from "../../RoleManager/RoleManagerPlugin.js";
+import { rolesCmd } from "../types.js";
 
 export const RemoveRoleCmd = rolesCmd({
   trigger: "removerole",
@@ -17,7 +17,8 @@ export const RemoveRoleCmd = rolesCmd({
   },
 
   async run({ message: msg, args, pluginData }) {
-    if (!canActOn(pluginData, msg.member, args.member, true)) {
+    const authorMember = await resolveMessageMember(msg);
+    if (!canActOn(pluginData, authorMember, args.member, true)) {
       void pluginData.state.common.sendErrorMessage(
         msg,
         "Cannot remove roles from this user: insufficient permissions",

@@ -1,15 +1,15 @@
-import z from "zod";
-import { SavedMessage } from "../../../data/entities/SavedMessage";
-import { humanizeDurationShort } from "../../../humanizeDurationShort";
-import { getDashboardUrl } from "../../../pluginUtils";
-import { convertDelayStringToMS, sorter, zDelayString } from "../../../utils";
-import { RecentActionType } from "../constants";
-import { automodTrigger } from "../helpers";
-import { findRecentSpam } from "./findRecentSpam";
-import { getMatchingMessageRecentActions } from "./getMatchingMessageRecentActions";
-import { getMessageSpamIdentifier } from "./getSpamIdentifier";
+import z from "zod/v4";
+import { SavedMessage } from "../../../data/entities/SavedMessage.js";
+import { humanizeDurationShort } from "../../../humanizeDuration.js";
+import { getDashboardUrl } from "../../../pluginUtils.js";
+import { convertDelayStringToMS, sorter, zDelayString } from "../../../utils.js";
+import { RecentActionType } from "../constants.js";
+import { automodTrigger } from "../helpers.js";
+import { findRecentSpam } from "./findRecentSpam.js";
+import { getMatchingMessageRecentActions } from "./getMatchingMessageRecentActions.js";
+import { getMessageSpamIdentifier } from "./getSpamIdentifier.js";
 
-interface TMessageSpamMatchResultType {
+export interface TMessageSpamMatchResultType {
   archiveId: string;
 }
 

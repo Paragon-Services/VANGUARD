@@ -1,8 +1,8 @@
-import { commandTypeHelpers as ct } from "../../../../commandTypes";
-import { hasPermission } from "../../../../pluginUtils";
-import { resolveUser } from "../../../../utils";
-import { modActionsMsgCmd } from "../../types";
-import { actualUnbanCmd } from "./actualUnbanCmd";
+import { commandTypeHelpers as ct } from "../../../../commandTypes.js";
+import { hasPermission, resolveMessageMember } from "../../../../pluginUtils.js";
+import { resolveUser } from "../../../../utils.js";
+import { modActionsMsgCmd } from "../../types.js";
+import { actualUnbanCmd } from "./actualUnbanCmd.js";
 
 const opts = {
   mod: ct.member({ option: true }),
@@ -29,8 +29,10 @@ export const UnbanMsgCmd = modActionsMsgCmd({
       return;
     }
 
+    const authorMember = await resolveMessageMember(msg);
+
     // The moderator who did the action is the message author or, if used, the specified -mod
-    let mod = msg.member;
+    let mod = authorMember;
     if (args.mod) {
       if (!(await hasPermission(pluginData, "can_act_as_other", { message: msg, channelId: msg.channel.id }))) {
         pluginData.state.common.sendErrorMessage(msg, "You don't have permission to use -mod");

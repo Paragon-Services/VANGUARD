@@ -1,56 +1,57 @@
 import { BasePluginType, guildPluginEventListener, guildPluginMessageCommand, pluginUtils } from "knub";
-import z from "zod";
-import { RegExpRunner } from "../../RegExpRunner";
-import { GuildArchives } from "../../data/GuildArchives";
-import { GuildCases } from "../../data/GuildCases";
-import { GuildLogs } from "../../data/GuildLogs";
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
-import { Supporters } from "../../data/Supporters";
-import { CommonPlugin } from "../Common/CommonPlugin";
+import z from "zod/v4";
+import { RegExpRunner } from "../../RegExpRunner.js";
+import { GuildArchives } from "../../data/GuildArchives.js";
+import { GuildCases } from "../../data/GuildCases.js";
+import { GuildLogs } from "../../data/GuildLogs.js";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { Supporters } from "../../data/Supporters.js";
+import { CommonPlugin } from "../Common/CommonPlugin.js";
 
 export const zUtilityConfig = z.strictObject({
-  can_roles: z.boolean(),
-  can_level: z.boolean(),
-  can_search: z.boolean(),
-  can_clean: z.boolean(),
-  can_nuke: z.boolean(),
-  can_archive: z.boolean(),
-  can_info: z.boolean(),
-  can_server: z.boolean(),
-  can_inviteinfo: z.boolean(),
-  can_channelinfo: z.boolean(),
-  can_messageinfo: z.boolean(),
-  can_userinfo: z.boolean(),
-  can_roleinfo: z.boolean(),
-  can_emojiinfo: z.boolean(),
-  can_snowflake: z.boolean(),
-  can_reload_guild: z.boolean(),
-  can_nickname: z.boolean(),
-  can_ping: z.boolean(),
-  can_source: z.boolean(),
-  can_vcmove: z.boolean(),
-  can_vckick: z.boolean(),
-  can_help: z.boolean(),
-  can_about: z.boolean(),
-  can_context: z.boolean(),
-  can_jumbo: z.boolean(),
-  jumbo_size: z.number(),
-  can_avatar: z.boolean(),
-  avatar_spoilered: z.boolean(),
-  info_on_single_result: z.boolean(),
-  autojoin_threads: z.boolean(),
-  embed_colour: z.number(),
-  embed_color: z.number(),
+  can_roles: z.boolean().default(false),
+  can_level: z.boolean().default(false),
+  can_search: z.boolean().default(false),
+  can_clean: z.boolean().default(false),
+  can_nuke: z.boolean().default(false),
+  can_archive: z.boolean().default(false),
+  can_info: z.boolean().default(false),
+  can_server: z.boolean().default(false),
+  can_inviteinfo: z.boolean().default(false),
+  can_channelinfo: z.boolean().default(false),
+  can_messageinfo: z.boolean().default(false),
+  can_userinfo: z.boolean().default(false),
+  can_roleinfo: z.boolean().default(false),
+  can_emojiinfo: z.boolean().default(false),
+  can_snowflake: z.boolean().default(false),
+  can_reload_guild: z.boolean().default(false),
+  can_nickname: z.boolean().default(false),
+  can_ping: z.boolean().default(false),
+  can_source: z.boolean().default(false),
+  can_vcmove: z.boolean().default(false),
+  can_vckick: z.boolean().default(false),
+  can_help: z.boolean().default(false),
+  can_about: z.boolean().default(false),
+  can_context: z.boolean().default(false),
+  can_jumbo: z.boolean().default(false),
+  jumbo_size: z.number().default(128),
+  can_avatar: z.boolean().default(false),
+  avatar_spoilered: z.boolean().default(false),
+  info_on_single_result: z.boolean().default(true),
+  autojoin_threads: z.boolean().default(true),
+  embed_colour: z.number().default(0x2b2d31),
+  embed_color: z.number().default(0x2b2d31),
   emojis: z
     .strictObject({
-      member_joined: z.string(),
-      account_created: z.string(),
+      member_joined: z.string().default("➡️"),
+      account_created: z.string().default("📅"),
     })
-    .partial(),
+    .partial()
+    .default({}),
 });
 
 export interface UtilityPluginType extends BasePluginType {
-  config: z.infer<typeof zUtilityConfig>;
+  configSchema: typeof zUtilityConfig;
   state: {
     logs: GuildLogs;
     cases: GuildCases;

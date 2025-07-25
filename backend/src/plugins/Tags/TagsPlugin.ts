@@ -1,47 +1,33 @@
 import { Snowflake } from "discord.js";
-import humanizeDuration from "humanize-duration";
-import { PluginOptions, guildPlugin } from "knub";
+import { guildPlugin } from "knub";
 import moment from "moment-timezone";
-import { GuildArchives } from "../../data/GuildArchives";
-import { GuildLogs } from "../../data/GuildLogs";
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
-import { GuildTags } from "../../data/GuildTags";
-import { makePublicFn } from "../../pluginUtils";
-import { convertDelayStringToMS } from "../../utils";
-import { CommonPlugin } from "../Common/CommonPlugin";
-import { LogsPlugin } from "../Logs/LogsPlugin";
-import { TimeAndDatePlugin } from "../TimeAndDate/TimeAndDatePlugin";
-import { TagCreateCmd } from "./commands/TagCreateCmd";
-import { TagDeleteCmd } from "./commands/TagDeleteCmd";
-import { TagEvalCmd } from "./commands/TagEvalCmd";
-import { TagListCmd } from "./commands/TagListCmd";
-import { TagSourceCmd } from "./commands/TagSourceCmd";
-import { TagsPluginType, zTagsConfig } from "./types";
-import { findTagByName } from "./util/findTagByName";
-import { onMessageCreate } from "./util/onMessageCreate";
-import { onMessageDelete } from "./util/onMessageDelete";
-import { renderTagBody } from "./util/renderTagBody";
+import { GuildArchives } from "../../data/GuildArchives.js";
+import { GuildLogs } from "../../data/GuildLogs.js";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { GuildTags } from "../../data/GuildTags.js";
+import { humanizeDuration } from "../../humanizeDuration.js";
+import { makePublicFn } from "../../pluginUtils.js";
+import { convertDelayStringToMS } from "../../utils.js";
+import { CommonPlugin } from "../Common/CommonPlugin.js";
+import { LogsPlugin } from "../Logs/LogsPlugin.js";
+import { TimeAndDatePlugin } from "../TimeAndDate/TimeAndDatePlugin.js";
+import { TagCreateCmd } from "./commands/TagCreateCmd.js";
+import { TagDeleteCmd } from "./commands/TagDeleteCmd.js";
+import { TagEvalCmd } from "./commands/TagEvalCmd.js";
+import { TagListCmd } from "./commands/TagListCmd.js";
+import { TagSourceCmd } from "./commands/TagSourceCmd.js";
+import { TagsPluginType, zTagsConfig } from "./types.js";
+import { findTagByName } from "./util/findTagByName.js";
+import { onMessageCreate } from "./util/onMessageCreate.js";
+import { onMessageDelete } from "./util/onMessageDelete.js";
+import { renderTagBody } from "./util/renderTagBody.js";
 
-const defaultOptions: PluginOptions<TagsPluginType> = {
-  config: {
-    prefix: "!!",
-    delete_with_command: true,
+export const TagsPlugin = guildPlugin<TagsPluginType>()({
+  name: "tags",
 
-    user_tag_cooldown: null,
-    global_tag_cooldown: null,
-    user_cooldown: null,
-    allow_mentions: false,
-    global_cooldown: null,
-    auto_delete_command: false,
-    auto_delete_command_on_reply: false,
-
-    categories: {},
-
-    can_create: false,
-    can_use: false,
-    can_list: false,
-  },
-  overrides: [
+  dependencies: () => [LogsPlugin],
+  configSchema: zTagsConfig,
+  defaultOverrides: [
     {
       level: ">=50",
       config: {
@@ -51,13 +37,6 @@ const defaultOptions: PluginOptions<TagsPluginType> = {
       },
     },
   ],
-};
-
-export const TagsPlugin = guildPlugin<TagsPluginType>()({
-  name: "tags",
-
-  dependencies: () => [LogsPlugin],
-  defaultOptions,
 
   // prettier-ignore
   messageCommands: [
@@ -79,8 +58,6 @@ export const TagsPlugin = guildPlugin<TagsPluginType>()({
       findTagByName: makePublicFn(pluginData, findTagByName),
     };
   },
-
-  configParser: (input) => zTagsConfig.parse(input),
 
   beforeLoad(pluginData) {
     const { state, guild } = pluginData;

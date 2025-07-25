@@ -1,6 +1,6 @@
 import { GuildPluginData } from "knub";
-import { CounterValue } from "../../../data/entities/CounterValue";
-import { CountersPluginType } from "../types";
+import { CounterValue } from "../../../data/entities/CounterValue.js";
+import { CountersPluginType } from "../types.js";
 
 export interface RankedCounterValues extends CounterValue {
   rank?: number;

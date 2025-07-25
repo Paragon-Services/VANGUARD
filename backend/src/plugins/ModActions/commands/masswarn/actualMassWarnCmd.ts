@@ -1,18 +1,18 @@
+import { performance } from "perf_hooks";
 import { Attachment, ChatInputCommandInteraction, GuildMember, Message, Snowflake, User } from "discord.js";
 import { GuildPluginData } from "knub";
-import { humanizeDurationShort } from "../../../../humanizeDurationShort";
-import { canActOn, isContextInteraction, sendContextResponse } from "../../../../pluginUtils";
-import { MINUTES, noop, resolveMember, resolveUser } from "../../../../utils";
-import { LogsPlugin } from "../../../Logs/LogsPlugin";
-import { ModActionsPluginType } from "../../types";
-import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction";
+import { humanizeDurationShort } from "../../../../humanizeDuration.js";
+import { canActOn, isContextInteraction, sendContextResponse } from "../../../../pluginUtils.js";
+import { MINUTES, noop, resolveMember, resolveUser } from "../../../../utils.js";
+import { LogsPlugin } from "../../../Logs/LogsPlugin.js";
+import { ModActionsPluginType } from "../../types.js";
+import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction.js";
 import {
   formatReasonWithAttachments,
   formatReasonWithMessageLinkForAttachments,
-} from "../../functions/formatReasonForAttachments";
-import { parseReason } from "../../functions/parseReason";
-import { performance } from "perf_hooks";
-import { warnMember } from "../../functions/warnMember";
+} from "../../functions/formatReasonForAttachments.js";
+import { parseReason } from "../../functions/parseReason.js";
+import { warnMember } from "../../functions/warnMember.js";
 
 export async function actualMassWarnCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,

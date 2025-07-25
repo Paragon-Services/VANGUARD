@@ -1,10 +1,10 @@
 import { BasePluginType, guildPluginEventListener } from "knub";
-import z from "zod";
-import { GuildArchives } from "../../data/GuildArchives";
-import { GuildLogs } from "../../data/GuildLogs";
-import { GuildMutes } from "../../data/GuildMutes";
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
-import { zSnowflake } from "../../utils";
+import z from "zod/v4";
+import { GuildArchives } from "../../data/GuildArchives.js";
+import { GuildLogs } from "../../data/GuildLogs.js";
+import { GuildMutes } from "../../data/GuildMutes.js";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { zSnowflake } from "../../utils.js";
 
 const zBaseSingleSpamConfig = z.strictObject({
   interval: z.number(),
@@ -18,16 +18,16 @@ const zBaseSingleSpamConfig = z.strictObject({
 export type TBaseSingleSpamConfig = z.infer<typeof zBaseSingleSpamConfig>;
 
 export const zSpamConfig = z.strictObject({
-  max_censor: zBaseSingleSpamConfig.nullable(),
-  max_messages: zBaseSingleSpamConfig.nullable(),
-  max_mentions: zBaseSingleSpamConfig.nullable(),
-  max_links: zBaseSingleSpamConfig.nullable(),
-  max_attachments: zBaseSingleSpamConfig.nullable(),
-  max_emojis: zBaseSingleSpamConfig.nullable(),
-  max_newlines: zBaseSingleSpamConfig.nullable(),
-  max_duplicates: zBaseSingleSpamConfig.nullable(),
-  max_characters: zBaseSingleSpamConfig.nullable(),
-  max_voice_moves: zBaseSingleSpamConfig.nullable(),
+  max_censor: zBaseSingleSpamConfig.nullable().default(null),
+  max_messages: zBaseSingleSpamConfig.nullable().default(null),
+  max_mentions: zBaseSingleSpamConfig.nullable().default(null),
+  max_links: zBaseSingleSpamConfig.nullable().default(null),
+  max_attachments: zBaseSingleSpamConfig.nullable().default(null),
+  max_emojis: zBaseSingleSpamConfig.nullable().default(null),
+  max_newlines: zBaseSingleSpamConfig.nullable().default(null),
+  max_duplicates: zBaseSingleSpamConfig.nullable().default(null),
+  max_characters: zBaseSingleSpamConfig.nullable().default(null),
+  max_voice_moves: zBaseSingleSpamConfig.nullable().default(null),
 });
 
 export enum RecentActionType {
@@ -42,7 +42,7 @@ export enum RecentActionType {
   VoiceChannelMove,
 }
 
-interface IRecentAction<T> {
+export interface IRecentAction<T> {
   type: RecentActionType;
   userId: string;
   actionGroupId: string;
@@ -52,7 +52,7 @@ interface IRecentAction<T> {
 }
 
 export interface SpamPluginType extends BasePluginType {
-  config: z.infer<typeof zSpamConfig>;
+  configSchema: typeof zSpamConfig;
   state: {
     logs: GuildLogs;
     archives: GuildArchives;

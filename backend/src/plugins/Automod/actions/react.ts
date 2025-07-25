@@ -1,10 +1,10 @@
-import z from "zod";
+import z from "zod/v4";
 import { GuildTextBasedChannel, PermissionsBitField, Snowflake } from "discord.js";
-import { isEmoji, verboseChannelMention } from "../../../utils";
-import { hasDiscordPermissions } from "../../../utils/hasDiscordPermissions";
-import { LogsPlugin } from "../../Logs/LogsPlugin";
-import { automodAction } from "../helpers";
-import { AutomodContext } from "../types";
+import { isEmoji, verboseChannelMention } from "../../../utils.js";
+import { hasDiscordPermissions } from "../../../utils/hasDiscordPermissions.js";
+import { LogsPlugin } from "../../Logs/LogsPlugin.js";
+import { automodAction } from "../helpers.js";
+import { AutomodContext } from "../types.js";
 
 export const ReactAction = automodAction({
   configSchema: z.union([z.string(), z.array(z.string())]).default(""),
@@ -33,7 +33,7 @@ export const ReactAction = automodAction({
           ? isEmoji(actionConfig)
             ? [actionConfig]
             : []
-          : actionConfig.filter((emoji) => isEmoji(emoji));
+          : (actionConfig as Array<string>).filter((emoji) => isEmoji(emoji));
 
       if (messageIds.length < 1 || emojis.length < 1) {
         return;

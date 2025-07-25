@@ -1,16 +1,16 @@
 import { BasePluginType, guildPluginMessageCommand, pluginUtils } from "knub";
-import z from "zod";
-import { GuildLogs } from "../../data/GuildLogs";
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
-import { GuildScheduledPosts } from "../../data/GuildScheduledPosts";
-import { CommonPlugin } from "../Common/CommonPlugin";
+import z from "zod/v4";
+import { GuildLogs } from "../../data/GuildLogs.js";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { GuildScheduledPosts } from "../../data/GuildScheduledPosts.js";
+import { CommonPlugin } from "../Common/CommonPlugin.js";
 
 export const zPostConfig = z.strictObject({
-  can_post: z.boolean(),
+  can_post: z.boolean().default(false),
 });
 
 export interface PostPluginType extends BasePluginType {
-  config: z.infer<typeof zPostConfig>;
+  configSchema: typeof zPostConfig;
   state: {
     savedMessages: GuildSavedMessages;
     scheduledPosts: GuildScheduledPosts;

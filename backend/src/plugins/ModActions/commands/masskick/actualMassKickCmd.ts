@@ -1,23 +1,23 @@
+import { performance } from "perf_hooks";
 import { Attachment, ChatInputCommandInteraction, GuildMember, Message, Snowflake } from "discord.js";
 import { GuildPluginData } from "knub";
-import { CaseTypes } from "../../../../data/CaseTypes";
-import { LogType } from "../../../../data/LogType";
-import { humanizeDurationShort } from "../../../../humanizeDurationShort";
-import { canActOn, isContextInteraction, sendContextResponse } from "../../../../pluginUtils";
-import { MINUTES, noop, notifyUser, resolveMember } from "../../../../utils";
-import { CasesPlugin } from "../../../Cases/CasesPlugin";
-import { LogsPlugin } from "../../../Logs/LogsPlugin";
-import { IgnoredEventType, ModActionsPluginType } from "../../types";
-import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction";
+import { CaseTypes } from "../../../../data/CaseTypes.js";
+import { LogType } from "../../../../data/LogType.js";
+import { humanizeDurationShort } from "../../../../humanizeDuration.js";
+import { canActOn, isContextInteraction, sendContextResponse } from "../../../../pluginUtils.js";
+import { MINUTES, noop, notifyUser, resolveMember } from "../../../../utils.js";
+import { CasesPlugin } from "../../../Cases/CasesPlugin.js";
+import { LogsPlugin } from "../../../Logs/LogsPlugin.js";
+import { IgnoredEventType, ModActionsPluginType } from "../../types.js";
+import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction.js";
 import {
   formatReasonWithAttachments,
   formatReasonWithMessageLinkForAttachments,
-} from "../../functions/formatReasonForAttachments";
-import { ignoreEvent } from "../../functions/ignoreEvent";
-import { renderTemplate, TemplateSafeValueContainer } from "../../../../templateFormatter";
-import { userToTemplateSafeUser } from "../../../../utils/templateSafeObjects";
-import { parseReason } from "../../functions/parseReason";
-import { performance } from "perf_hooks";
+} from "../../functions/formatReasonForAttachments.js";
+import { ignoreEvent } from "../../functions/ignoreEvent.js";
+import { renderTemplate, TemplateSafeValueContainer } from "../../../../templateFormatter.js";
+import { userToTemplateSafeUser } from "../../../../utils/templateSafeObjects.js";
+import { parseReason } from "../../functions/parseReason.js";
 
 export async function actualMassKickCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,

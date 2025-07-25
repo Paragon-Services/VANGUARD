@@ -1,10 +1,10 @@
 import { Snowflake, User } from "discord.js";
 import { GuildPluginData } from "knub";
-import { CaseTypes } from "../../../data/CaseTypes";
-import { resolveUser, UnknownUser } from "../../../utils";
-import { CasesPlugin } from "../../Cases/CasesPlugin";
-import { LogsPlugin } from "../../Logs/LogsPlugin";
-import { ModActionsPluginType, NoteOptions, NoteResult } from "../types";
+import { CaseTypes } from "../../../data/CaseTypes.js";
+import { resolveUser, UnknownUser } from "../../../utils.js";
+import { CasesPlugin } from "../../Cases/CasesPlugin.js";
+import { LogsPlugin } from "../../Logs/LogsPlugin.js";
+import { ModActionsPluginType, NoteOptions, NoteResult } from "../types.js";
 
 export async function noteMember(
   pluginData: GuildPluginData<ModActionsPluginType>,

@@ -1,13 +1,13 @@
 import { BasePluginType, CooldownManager, guildPluginEventListener } from "knub";
-import { z } from "zod";
-import { RegExpRunner } from "../../RegExpRunner";
-import { GuildArchives } from "../../data/GuildArchives";
-import { GuildCases } from "../../data/GuildCases";
-import { GuildLogs } from "../../data/GuildLogs";
-import { GuildSavedMessages } from "../../data/GuildSavedMessages";
-import { LogType } from "../../data/LogType";
-import { keys, zBoundedCharacters, zMessageContent, zRegex, zSnowflake } from "../../utils";
-import { MessageBuffer } from "../../utils/MessageBuffer";
+import { z } from "zod/v4";
+import { RegExpRunner } from "../../RegExpRunner.js";
+import { GuildArchives } from "../../data/GuildArchives.js";
+import { GuildCases } from "../../data/GuildCases.js";
+import { GuildLogs } from "../../data/GuildLogs.js";
+import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
+import { LogType } from "../../data/LogType.js";
+import { keys, zBoundedCharacters, zEmbedInput, zMessageContent, zRegex, zSnowflake, zStrictMessageContent } from "../../utils.js";
+import { MessageBuffer } from "../../utils/MessageBuffer.js";
 import {
   TemplateSafeCase,
   TemplateSafeChannel,
@@ -20,22 +20,21 @@ import {
   TemplateSafeUnknownMember,
   TemplateSafeUnknownUser,
   TemplateSafeUser,
-} from "../../utils/templateSafeObjects";
+} from "../../utils/templateSafeObjects.js";
+import DefaultLogMessages from "../../data/DefaultLogMessages.json" with { type: "json" };
 
 const DEFAULT_BATCH_TIME = 1000;
 const MIN_BATCH_TIME = 250;
 const MAX_BATCH_TIME = 5000;
 
-type ZLogFormatsHelper = {
-  -readonly [K in keyof typeof LogType]: typeof zMessageContent;
-};
-export const zLogFormats = z.strictObject(
-  keys(LogType).reduce((map, logType) => {
-    map[logType] = zMessageContent;
-    return map;
-  }, {} as ZLogFormatsHelper),
-);
-export type TLogFormats = z.infer<typeof zLogFormats>;
+// A bit of a workaround so we can pass LogType keys to z.enum()
+const zMessageContentWithDefault = zMessageContent.default("");
+const logTypes = keys(LogType);
+const logTypeProps = logTypes.reduce((map, type) => {
+  map[type] = zMessageContent.default(DefaultLogMessages[type] || "");
+  return map;
+}, {} as Record<keyof typeof LogType, typeof zMessageContentWithDefault>);
+const zLogFormats = z.strictObject(logTypeProps);
 
 const zLogChannel = z.strictObject({
   include: z.array(zBoundedCharacters(1, 255)).default([]),
@@ -59,25 +58,20 @@ const zLogChannelMap = z.record(zSnowflake, zLogChannel);
 export type TLogChannelMap = z.infer<typeof zLogChannelMap>;
 
 export const zLogsConfig = z.strictObject({
-  channels: zLogChannelMap,
-  format: zLogFormats.merge(
-    z.strictObject({
-      // Legacy/deprecated, use timestamp_format below instead
-      timestamp: zBoundedCharacters(0, 64).nullable(),
-    }),
-  ),
+  channels: zLogChannelMap.default({}),
+  format: zLogFormats.prefault({}),
   // Legacy/deprecated, if below is false mentions wont actually ping. In case you really want the old behavior, set below to true
-  ping_user: z.boolean(),
-  allow_user_mentions: z.boolean(),
-  timestamp_format: z.string().nullable(),
-  include_embed_timestamp: z.boolean(),
+  ping_user: z.boolean().default(true),
+  allow_user_mentions: z.boolean().default(false),
+  timestamp_format: z.string().nullable().default("[<t:]X[>]"),
+  include_embed_timestamp: z.boolean().default(true),
 });
 
 // Hacky way of allowing a """null""" default value for config.format.timestamp due to legacy io-ts reasons
 export const FORMAT_NO_TIMESTAMP = "__NO_TIMESTAMP__";
 
 export interface LogsPluginType extends BasePluginType {
-  config: z.infer<typeof zLogsConfig>;
+  configSchema: typeof zLogsConfig;
   state: {
     guildLogs: GuildLogs;
     savedMessages: GuildSavedMessages;

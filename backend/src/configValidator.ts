@@ -1,12 +1,12 @@
 import { BaseConfig, ConfigValidationError, GuildPluginBlueprint, PluginConfigManager } from "knub";
-import { ZodError } from "zod";
-import { guildPlugins } from "./plugins/availablePlugins";
-import { zZeppelinGuildConfig } from "./types";
-import { formatZodIssue } from "./utils/formatZodIssue";
+import { z, ZodError } from "zod/v4";
+import { availableGuildPlugins } from "./plugins/availablePlugins.js";
+import { zZeppelinGuildConfig } from "./types.js";
+import { formatZodIssue } from "./utils/formatZodIssue.js";
 
 const pluginNameToPlugin = new Map<string, GuildPluginBlueprint<any, any>>();
-for (const plugin of guildPlugins) {
-  pluginNameToPlugin.set(plugin.name, plugin);
+for (const pluginInfo of availableGuildPlugins) {
+  pluginNameToPlugin.set(pluginInfo.plugin.name, pluginInfo.plugin);
 }
 
 export async function validateGuildConfig(config: any): Promise<string | null> {
@@ -28,15 +28,21 @@ export async function validateGuildConfig(config: any): Promise<string | null> {
       }
 
       const plugin = pluginNameToPlugin.get(pluginName)!;
-      const configManager = new PluginConfigManager(plugin.defaultOptions || { config: {} }, pluginOptions, {
-        levels: {},
-        parser: plugin.configParser,
-      });
+      const configManager = new PluginConfigManager(
+        pluginOptions,
+        {
+          configSchema: plugin.configSchema,
+          defaultOverrides: plugin.defaultOverrides ?? [],
+          levels: {},
+          customOverrideCriteriaFunctions: plugin.customOverrideCriteriaFunctions,
+        },
+      );
+
       try {
         await configManager.init();
       } catch (err) {
         if (err instanceof ZodError) {
-          return `${pluginName}: ${err.issues.map(formatZodIssue).join("\n")}`;
+          return `${pluginName}:\n${z.prettifyError(err)}`;
         }
         if (err instanceof ConfigValidationError) {
           return `${pluginName}: ${err.message}`;

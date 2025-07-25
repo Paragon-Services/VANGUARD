@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, Message } from "discord.js";
 import { GuildPluginData } from "knub";
-import { ModActionsPluginType } from "../../types";
-import { areCasesGlobal } from "../../../../pluginUtils";
+import { ModActionsPluginType } from "../../types.js";
+import { areCasesGlobal } from "../../../../pluginUtils.js";
 
 export async function actualHideCaseCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,

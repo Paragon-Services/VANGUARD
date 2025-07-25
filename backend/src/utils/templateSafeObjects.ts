@@ -5,6 +5,7 @@ import {
   GuildMember,
   Message,
   PartialGuildMember,
+  PartialUser,
   Role,
   Snowflake,
   StageInstance,
@@ -13,21 +14,21 @@ import {
   User,
 } from "discord.js";
 import { GuildPluginData } from "knub";
-import { Case } from "../data/entities/Case";
-import { CounterValue } from "../data/entities/CounterValue";
+import { Case } from "../data/entities/Case.js";
+import { CounterValue } from "../data/entities/CounterValue.js";
 import {
   ISavedMessageAttachmentData,
   ISavedMessageData,
   ISavedMessageEmbedData,
   ISavedMessageStickerData,
   SavedMessage,
-} from "../data/entities/SavedMessage";
+} from "../data/entities/SavedMessage.js";
 import {
   TemplateSafeValueContainer,
   TypedTemplateSafeValueContainer,
   ingestDataIntoTemplateSafeValueContainer,
-} from "../templateFormatter";
-import { UnknownUser, renderUsername } from "../utils";
+} from "../templateFormatter.js";
+import { UnknownUser, renderUsername } from "../utils.js";
 
 type InputProps<T> = Omit<
   {
@@ -260,29 +261,29 @@ export function guildToTemplateSafeGuild(guild: Guild): TemplateSafeGuild {
   });
 }
 
-export function userToTemplateSafeUser(user: User | UnknownUser): TemplateSafeUser {
-  if (user instanceof UnknownUser) {
+export function userToTemplateSafeUser(user: User | UnknownUser | PartialUser): TemplateSafeUser {
+  if (user instanceof User) {
     return new TemplateSafeUser({
       id: user.id,
-      username: "Unknown",
-      discriminator: "0000",
+      username: user.username,
+      discriminator: user.discriminator,
+      globalName: user.globalName,
       mention: `<@${user.id}>`,
-      tag: "Unknown#0000",
+      tag: user.tag,
+      avatarURL: user.displayAvatarURL?.() || "",
+      bot: user.bot,
+      createdAt: user.createdTimestamp,
       renderedUsername: renderUsername(user),
     });
   }
 
   return new TemplateSafeUser({
     id: user.id,
-    username: user.username,
-    discriminator: user.discriminator,
-    globalName: user.globalName,
+    username: "Unknown",
+    discriminator: "0000",
     mention: `<@${user.id}>`,
-    tag: user.tag,
-    avatarURL: user?.displayAvatarURL ? user.displayAvatarURL() : undefined,
-    bot: user.bot,
-    createdAt: user.createdTimestamp,
-    renderedUsername: renderUsername(user),
+    tag: "Unknown#0000",
+    renderedUsername: "Unknown",
   });
 }
 

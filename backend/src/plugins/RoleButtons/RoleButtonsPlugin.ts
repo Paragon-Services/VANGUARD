@@ -1,32 +1,25 @@
 import { guildPlugin } from "knub";
-import { GuildRoleButtons } from "../../data/GuildRoleButtons";
-import { CommonPlugin } from "../Common/CommonPlugin";
-import { LogsPlugin } from "../Logs/LogsPlugin";
-import { RoleManagerPlugin } from "../RoleManager/RoleManagerPlugin";
-import { resetButtonsCmd } from "./commands/resetButtons";
-import { onButtonInteraction } from "./events/buttonInteraction";
-import { applyAllRoleButtons } from "./functions/applyAllRoleButtons";
-import { RoleButtonsPluginType, zRoleButtonsConfig } from "./types";
+import { GuildRoleButtons } from "../../data/GuildRoleButtons.js";
+import { CommonPlugin } from "../Common/CommonPlugin.js";
+import { LogsPlugin } from "../Logs/LogsPlugin.js";
+import { RoleManagerPlugin } from "../RoleManager/RoleManagerPlugin.js";
+import { resetButtonsCmd } from "./commands/resetButtons.js";
+import { onButtonInteraction } from "./events/buttonInteraction.js";
+import { applyAllRoleButtons } from "./functions/applyAllRoleButtons.js";
+import { RoleButtonsPluginType, zRoleButtonsConfig } from "./types.js";
 
 export const RoleButtonsPlugin = guildPlugin<RoleButtonsPluginType>()({
   name: "role_buttons",
 
-  defaultOptions: {
-    config: {
-      buttons: {},
-      can_reset: false,
-    },
-    overrides: [
-      {
-        level: ">=100",
-        config: {
-          can_reset: true,
-        },
+  configSchema: zRoleButtonsConfig,
+  defaultOverrides: [
+    {
+      level: ">=100",
+      config: {
+        can_reset: true,
       },
-    ],
-  },
-
-  configParser: (input) => zRoleButtonsConfig.parse(input),
+    },
+  ],
 
   dependencies: () => [LogsPlugin, RoleManagerPlugin],
 

@@ -1,10 +1,10 @@
-import { GuildPluginData, ExtendedMatchParams } from "knub";
-import { renderTemplate, TemplateSafeValue, TemplateSafeValueContainer } from "../../../templateFormatter";
-import { renderRecursively, resolveUser, StrictMessageContent, UnknownUser } from "../../../utils";
-import { CountersPlugin } from "../../Counters/CountersPlugin";
-import { TTag, TagsPluginType } from "../types";
-import { findTagByName } from "./findTagByName";
-import { counterValueToTemplateSafeCounterValue, userToTemplateSafeUser } from "../../../utils/templateSafeObjects";
+import { ExtendedMatchParams, GuildPluginData } from "knub";
+import { TemplateSafeValue, TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter.js";
+import { renderRecursively, resolveUser, StrictMessageContent, UnknownUser } from "../../../utils.js";
+import { CountersPlugin } from "../../Counters/CountersPlugin.js";
+import { TTag, TagsPluginType } from "../types.js";
+import { findTagByName } from "./findTagByName.js";
+import { counterValueToTemplateSafeCounterValue, userToTemplateSafeUser } from "../../../utils/templateSafeObjects.js";
 
 const MAX_TAG_FN_CALLS = 25;
 

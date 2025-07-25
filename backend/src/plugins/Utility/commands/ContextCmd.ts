@@ -1,8 +1,9 @@
 import { Snowflake, TextChannel } from "discord.js";
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { messageLink } from "../../../utils";
-import { canReadChannel } from "../../../utils/canReadChannel";
-import { utilityCmd } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { resolveMessageMember } from "../../../pluginUtils.js";
+import { messageLink } from "../../../utils.js";
+import { canReadChannel } from "../../../utils/canReadChannel.js";
+import { utilityCmd } from "../types.js";
 
 export const ContextCmd = utilityCmd({
   trigger: "context",
@@ -29,7 +30,8 @@ export const ContextCmd = utilityCmd({
     const channel = args.channel ?? args.message.channel;
     const messageId = args.messageId ?? args.message.messageId;
 
-    if (!canReadChannel(channel, msg.member)) {
+    const authorMember = await resolveMessageMember(msg);
+    if (!canReadChannel(channel, authorMember)) {
       void pluginData.state.common.sendErrorMessage(msg, "Message context not found");
       return;
     }

@@ -1,10 +1,10 @@
-import { commandTypeHelpers as ct } from "../../../../commandTypes";
-import { canActOn, hasPermission } from "../../../../pluginUtils";
-import { errorMessage, resolveMember, resolveUser } from "../../../../utils";
-import { isBanned } from "../../functions/isBanned";
-import { readContactMethodsFromArgs } from "../../functions/readContactMethodsFromArgs";
-import { modActionsMsgCmd } from "../../types";
-import { actualWarnCmd } from "./actualWarnCmd";
+import { commandTypeHelpers as ct } from "../../../../commandTypes.js";
+import { canActOn, hasPermission, resolveMessageMember } from "../../../../pluginUtils.js";
+import { errorMessage, resolveMember, resolveUser } from "../../../../utils.js";
+import { isBanned } from "../../functions/isBanned.js";
+import { readContactMethodsFromArgs } from "../../functions/readContactMethodsFromArgs.js";
+import { modActionsMsgCmd } from "../../types.js";
+import { actualWarnCmd } from "./actualWarnCmd.js";
 
 export const WarnMsgCmd = modActionsMsgCmd({
   trigger: "warn",
@@ -27,6 +27,7 @@ export const WarnMsgCmd = modActionsMsgCmd({
       return;
     }
 
+    const authorMember = await resolveMessageMember(msg);
     const memberToWarn = await resolveMember(pluginData.client, pluginData.guild, user.id);
 
     if (!memberToWarn) {
@@ -39,13 +40,13 @@ export const WarnMsgCmd = modActionsMsgCmd({
     }
 
     // Make sure we're allowed to warn this member
-    if (memberToWarn && !canActOn(pluginData, msg.member, memberToWarn)) {
+    if (memberToWarn && !canActOn(pluginData, authorMember, memberToWarn)) {
       await pluginData.state.common.sendErrorMessage(msg, "Cannot warn: insufficient permissions");
       return;
     }
 
     // The moderator who did the action is the message author or, if used, the specified -mod
-    let mod = msg.member;
+    let mod = authorMember;
     if (args.mod) {
       if (!(await hasPermission(pluginData, "can_act_as_other", { message: msg }))) {
         msg.channel.send(errorMessage("You don't have permission to use -mod"));

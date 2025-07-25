@@ -1,12 +1,12 @@
 import type { Snowflake } from "discord.js";
 import { GuildPluginData } from "knub";
-import { CaseTypes } from "../../../data/CaseTypes";
-import { logger } from "../../../logger";
-import { areCasesGlobal, getDashboardUrl } from "../../../pluginUtils";
-import { renderUsername, resolveUser } from "../../../utils";
-import { CaseArgs, CasesPluginType } from "../types";
-import { createCaseNote } from "./createCaseNote";
-import { postCaseToCaseLogChannel } from "./postToCaseLogChannel";
+import { CaseTypes } from "../../../data/CaseTypes.js";
+import { logger } from "../../../logger.js";
+import { areCasesGlobal, getDashboardUrl } from "../../../pluginUtils.js";
+import { renderUsername, resolveUser } from "../../../utils.js";
+import { CaseArgs, CasesPluginType } from "../types.js";
+import { createCaseNote } from "./createCaseNote.js";
+import { postCaseToCaseLogChannel } from "./postToCaseLogChannel.js";
 
 export async function createCase(pluginData: GuildPluginData<CasesPluginType>, args: CaseArgs) {
   const casesTypesWithoutArchive = [CaseTypes.Note, CaseTypes.Unban];

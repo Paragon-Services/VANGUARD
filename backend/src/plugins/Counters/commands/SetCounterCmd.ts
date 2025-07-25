@@ -1,10 +1,10 @@
 import { Snowflake, TextChannel } from "discord.js";
 import { guildPluginMessageCommand } from "knub";
 import { waitForReply } from "knub/helpers";
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { UnknownUser, resolveUser } from "../../../utils";
-import { setCounterValue } from "../functions/setCounterValue";
-import { CountersPluginType } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { UnknownUser, resolveUser } from "../../../utils.js";
+import { setCounterValue } from "../functions/setCounterValue.js";
+import { CountersPluginType } from "../types.js";
 
 export const SetCounterCmd = guildPluginMessageCommand<CountersPluginType>()({
   trigger: ["counters set", "counter set", "setcounter"],
@@ -123,16 +123,15 @@ export const SetCounterCmd = guildPluginMessageCommand<CountersPluginType>()({
     }
 
     await setCounterValue(pluginData, args.counterName, channel?.id ?? null, user?.id ?? null, value);
-    const counterName = counter.name || args.counterName;
 
     if (channel && user) {
-      message.channel.send(`Set **${counterName}** for <@!${user.id}> in <#${channel.id}> to ${value}`);
+      message.channel.send(`Set **${args.counterName}** for <@!${user.id}> in <#${channel.id}> to ${value}`);
     } else if (channel) {
-      message.channel.send(`Set **${counterName}** in <#${channel.id}> to ${value}`);
+      message.channel.send(`Set **${args.counterName}** in <#${channel.id}> to ${value}`);
     } else if (user) {
-      message.channel.send(`Set **${counterName}** for <@!${user.id}> to ${value}`);
+      message.channel.send(`Set **${args.counterName}** for <@!${user.id}> to ${value}`);
     } else {
-      message.channel.send(`Set **${counterName}** to ${value}`);
+      message.channel.send(`Set **${args.counterName}** to ${value}`);
     }
   },
 });

@@ -5,6 +5,7 @@ import {
   GuildMember,
   Message,
   MessageComponentInteraction,
+  OmitPartialGroupDMChannel,
   PermissionsBitField,
   Snowflake,
   User,
@@ -12,8 +13,8 @@ import {
 import escapeStringRegexp from "escape-string-regexp";
 import { ArgsFromSignatureOrArray, GuildPluginData } from "knub";
 import moment from "moment-timezone";
-import { RegExpRunner, allowTimeout } from "../../RegExpRunner";
-import { getBaseUrl } from "../../pluginUtils";
+import { RegExpRunner, allowTimeout } from "../../RegExpRunner.js";
+import { getBaseUrl } from "../../pluginUtils.js";
 import {
   InvalidRegexError,
   MINUTES,
@@ -22,14 +23,14 @@ import {
   renderUsername,
   sorter,
   trimLines,
-} from "../../utils";
-import { asyncFilter } from "../../utils/async";
-import { hasDiscordPermissions } from "../../utils/hasDiscordPermissions";
-import { banSearchSignature } from "./commands/BanSearchCmd";
-import { searchCmdSignature } from "./commands/SearchCmd";
-import { getUserInfoEmbed } from "./functions/getUserInfoEmbed";
-import { refreshMembersIfNeeded } from "./refreshMembers";
-import { UtilityPluginType } from "./types";
+} from "../../utils.js";
+import { asyncFilter } from "../../utils/async.js";
+import { hasDiscordPermissions } from "../../utils/hasDiscordPermissions.js";
+import { banSearchSignature } from "./commands/BanSearchCmd.js";
+import { searchCmdSignature } from "./commands/SearchCmd.js";
+import { getUserInfoEmbed } from "./functions/getUserInfoEmbed.js";
+import { refreshMembersIfNeeded } from "./refreshMembers.js";
+import { UtilityPluginType } from "./types.js";
 import Timeout = NodeJS.Timeout;
 
 const SEARCH_RESULTS_PER_PAGE = 15;
@@ -73,22 +74,22 @@ export async function displaySearch(
   pluginData: GuildPluginData<UtilityPluginType>,
   args: MemberSearchParams,
   searchType: SearchType.MemberSearch,
-  msg: Message,
+  msg: OmitPartialGroupDMChannel<Message>,
 );
 export async function displaySearch(
   pluginData: GuildPluginData<UtilityPluginType>,
   args: BanSearchParams,
   searchType: SearchType.BanSearch,
-  msg: Message,
+  msg: OmitPartialGroupDMChannel<Message>,
 );
 export async function displaySearch(
   pluginData: GuildPluginData<UtilityPluginType>,
   args: MemberSearchParams | BanSearchParams,
   searchType: SearchType,
-  msg: Message,
+  msg: OmitPartialGroupDMChannel<Message>,
 ) {
   // If we're not exporting, load 1 page of search results at a time and allow the user to switch pages with reactions
-  let originalSearchMsg: Message;
+  let originalSearchMsg: OmitPartialGroupDMChannel<Message>;
   let searching = false;
   let currentPage = args.page || 1;
   let stopCollectionFn: () => void;
@@ -107,7 +108,7 @@ export async function displaySearch(
       searchMsgPromise = originalSearchMsg.edit("Searching...");
     } else {
       searchMsgPromise = msg.channel.send("Searching...");
-      searchMsgPromise.then((m) => (originalSearchMsg = m));
+      searchMsgPromise.then((m) => (originalSearchMsg = m as OmitPartialGroupDMChannel<Message>));
     }
 
     let searchResult;
@@ -240,19 +241,19 @@ export async function archiveSearch(
   pluginData: GuildPluginData<UtilityPluginType>,
   args: MemberSearchParams,
   searchType: SearchType.MemberSearch,
-  msg: Message,
+  msg: OmitPartialGroupDMChannel<Message>,
 );
 export async function archiveSearch(
   pluginData: GuildPluginData<UtilityPluginType>,
   args: BanSearchParams,
   searchType: SearchType.BanSearch,
-  msg: Message,
+  msg: OmitPartialGroupDMChannel<Message>,
 );
 export async function archiveSearch(
   pluginData: GuildPluginData<UtilityPluginType>,
   args: MemberSearchParams | BanSearchParams,
   searchType: SearchType,
-  msg: Message,
+  msg: OmitPartialGroupDMChannel<Message>,
 ) {
   let results;
   try {

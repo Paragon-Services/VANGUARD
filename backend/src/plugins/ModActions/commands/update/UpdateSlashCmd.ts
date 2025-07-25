@@ -1,9 +1,9 @@
 import { slashOptions } from "knub";
-import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions";
-import { updateCase } from "../../functions/updateCase";
-import { modActionsSlashCmd } from "../../types";
-import { NUMBER_ATTACHMENTS_CASE_UPDATE } from "../constants";
-import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete";
+import { generateAttachmentSlashOptions, retrieveMultipleOptions } from "../../../../utils/multipleSlashOptions.js";
+import { updateCase } from "../../functions/updateCase.js";
+import { modActionsSlashCmd } from "../../types.js";
+import { NUMBER_ATTACHMENTS_CASE_UPDATE } from "../constants.js";
+import { slashCmdReasonAliasAutocomplete } from "../../functions/slashCmdReasonAliasAutocomplete.js";
 
 const opts = [
   slashOptions.string({ name: "case-number", description: "The number of the case to update", required: false }),

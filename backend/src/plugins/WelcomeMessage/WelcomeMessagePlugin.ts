@@ -1,23 +1,14 @@
-import { PluginOptions, guildPlugin } from "knub";
-import { GuildLogs } from "../../data/GuildLogs";
-import { LogsPlugin } from "../Logs/LogsPlugin";
-import { SendWelcomeMessageEvt } from "./events/SendWelcomeMessageEvt";
-import { WelcomeMessagePluginType, zWelcomeMessageConfig } from "./types";
-
-const defaultOptions: PluginOptions<WelcomeMessagePluginType> = {
-  config: {
-    send_dm: false,
-    send_to_channel: null,
-    message: null,
-  },
-};
+import { guildPlugin } from "knub";
+import { GuildLogs } from "../../data/GuildLogs.js";
+import { LogsPlugin } from "../Logs/LogsPlugin.js";
+import { SendWelcomeMessageEvt } from "./events/SendWelcomeMessageEvt.js";
+import { WelcomeMessagePluginType, zWelcomeMessageConfig } from "./types.js";
 
 export const WelcomeMessagePlugin = guildPlugin<WelcomeMessagePluginType>()({
   name: "welcome_message",
 
   dependencies: () => [LogsPlugin],
-  configParser: (input) => zWelcomeMessageConfig.parse(input),
-  defaultOptions,
+  configSchema: zWelcomeMessageConfig,
 
   // prettier-ignore
   events: [

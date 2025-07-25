@@ -1,12 +1,12 @@
 import { ChatInputCommandInteraction, GuildMember, Message } from "discord.js";
 import { GuildPluginData, helpers } from "knub";
-import { Case } from "../../../../data/entities/Case";
-import { areCasesGlobal, getContextChannel, sendContextResponse } from "../../../../pluginUtils";
-import { SECONDS, renderUsername } from "../../../../utils";
-import { CasesPlugin } from "../../../Cases/CasesPlugin";
-import { LogsPlugin } from "../../../Logs/LogsPlugin";
-import { TimeAndDatePlugin } from "../../../TimeAndDate/TimeAndDatePlugin";
-import { ModActionsPluginType } from "../../types";
+import { Case } from "../../../../data/entities/Case.js";
+import { areCasesGlobal, getContextChannel, sendContextResponse } from "../../../../pluginUtils.js";
+import { SECONDS, renderUsername } from "../../../../utils.js";
+import { CasesPlugin } from "../../../Cases/CasesPlugin.js";
+import { LogsPlugin } from "../../../Logs/LogsPlugin.js";
+import { TimeAndDatePlugin } from "../../../TimeAndDate/TimeAndDatePlugin.js";
+import { ModActionsPluginType } from "../../types.js";
 
 export async function actualDeleteCaseCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,
@@ -36,6 +36,11 @@ export async function actualDeleteCaseCmd(
 
   for (const theCase of validCases) {
     if (!force) {
+      const channel = await getContextChannel(context);
+      if (!channel) {
+        return;
+      }
+
       const cases = pluginData.getPlugin(CasesPlugin);
       const embedContent = await cases.getCaseEmbed(theCase);
       sendContextResponse(context, {
@@ -43,12 +48,7 @@ export async function actualDeleteCaseCmd(
         content: "Delete the following case? Answer 'Yes' to continue, 'No' to cancel.",
       });
 
-      const reply = await helpers.waitForReply(
-        pluginData.client,
-        await getContextChannel(context),
-        author.id,
-        15 * SECONDS,
-      );
+      const reply = await helpers.waitForReply(pluginData.client, channel, author.id, 15 * SECONDS);
       const normalizedReply = (reply?.content || "").toLowerCase().trim();
       if (normalizedReply !== "yes" && normalizedReply !== "y") {
         sendContextResponse(context, "Cancelled. Case was not deleted.");

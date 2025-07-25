@@ -1,8 +1,8 @@
-import { commandTypeHelpers as ct } from "../../../../commandTypes";
-import { actualMassKickCmd } from "./actualMassKickCmd";
-import { modActionsMsgCmd } from "../../types";
-import { getContextChannel, sendContextResponse } from "../../../../pluginUtils";
 import { waitForReply } from "knub/helpers";
+import { commandTypeHelpers as ct } from "../../../../commandTypes.js";
+import { actualMassKickCmd } from "./actualMassKickCmd.js";
+import { modActionsMsgCmd } from "../../types.js";
+import { getContextChannel, sendContextResponse } from "../../../../pluginUtils.js";
 
 export const MassKickMsgCmd = modActionsMsgCmd({
   trigger: "masskick",
@@ -18,13 +18,13 @@ export const MassKickMsgCmd = modActionsMsgCmd({
   async run({ pluginData, message: msg, args }) {
     // Ask for kick reason (cleaner this way instead of trying to cram it into the args)
     sendContextResponse(msg, "Kick reason? `cancel` to cancel");
-    const kickReasonReply = await waitForReply(pluginData.client, await getContextChannel(msg), msg.author.id);
+    const kickReasonReply = await waitForReply(pluginData.client, (await getContextChannel(msg))!, msg.author.id);
     if (!kickReasonReply || !kickReasonReply.content || kickReasonReply.content.toLowerCase().trim() === "cancel") {
       pluginData.state.common.sendErrorMessage(msg, "Cancelled");
       return;
     }
 
-    actualMassKickCmd(pluginData, msg, args.userIds, msg.member, kickReasonReply.content, [
+    actualMassKickCmd(pluginData, msg, args.userIds, msg.member!, kickReasonReply.content, [
       ...kickReasonReply.attachments.values(),
     ]);
   },

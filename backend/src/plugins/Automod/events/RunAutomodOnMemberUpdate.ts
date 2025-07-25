@@ -1,8 +1,7 @@
 import { guildPluginEventListener } from "knub";
-import diff from "lodash.difference";
-import isEqual from "lodash.isequal";
-import { runAutomod } from "../functions/runAutomod";
-import { AutomodContext, AutomodPluginType } from "../types";
+import { difference, isEqual } from "lodash-es";
+import { runAutomod } from "../functions/runAutomod.js";
+import { AutomodContext, AutomodPluginType } from "../types.js";
 
 export const RunAutomodOnMemberUpdate = guildPluginEventListener<AutomodPluginType>()({
   event: "guildMemberUpdate",
@@ -15,8 +14,8 @@ export const RunAutomodOnMemberUpdate = guildPluginEventListener<AutomodPluginTy
 
     if (isEqual(oldRoles, newRoles)) return;
 
-    const addedRoles = diff(newRoles, oldRoles);
-    const removedRoles = diff(oldRoles, newRoles);
+    const addedRoles = difference(newRoles, oldRoles);
+    const removedRoles = difference(oldRoles, newRoles);
 
     if (addedRoles.length || removedRoles.length) {
       const context: AutomodContext = {

@@ -1,15 +1,15 @@
 import { Snowflake, TextChannel } from "discord.js";
 import { GuildPluginData } from "knub";
-import z from "zod";
-import { TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter";
-import { zBoundedCharacters, zSnowflake } from "../../../utils";
-import { ActionError } from "../ActionError";
-import { catchTemplateError } from "../catchTemplateError";
-import { CustomEventsPluginType } from "../types";
+import z from "zod/v4";
+import { TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter.js";
+import { zBoundedCharacters } from "../../../utils.js";
+import { ActionError } from "../ActionError.js";
+import { catchTemplateError } from "../catchTemplateError.js";
+import { CustomEventsPluginType } from "../types.js";
 
 export const zMessageAction = z.strictObject({
   type: z.literal("message"),
-  channel: zSnowflake,
+  channel: zBoundedCharacters(0, 100),
   content: zBoundedCharacters(0, 4000),
 });
 export type TMessageAction = z.infer<typeof zMessageAction>;

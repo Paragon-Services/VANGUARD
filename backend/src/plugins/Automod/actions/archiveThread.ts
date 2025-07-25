@@ -1,7 +1,7 @@
 import { AnyThreadChannel } from "discord.js";
-import z from "zod";
-import { noop } from "../../../utils";
-import { automodAction } from "../helpers";
+import z from "zod/v4";
+import { noop } from "../../../utils.js";
+import { automodAction } from "../helpers.js";
 
 const configSchema = z.strictObject({});
 

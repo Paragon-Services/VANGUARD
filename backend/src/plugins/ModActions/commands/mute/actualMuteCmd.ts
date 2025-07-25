@@ -1,24 +1,24 @@
 import { Attachment, ChatInputCommandInteraction, GuildMember, Message, User } from "discord.js";
-import humanizeDuration from "humanize-duration";
 import { GuildPluginData } from "knub";
-import { ERRORS, RecoverablePluginError } from "../../../../RecoverablePluginError";
-import { logger } from "../../../../logger";
+import { ERRORS, RecoverablePluginError } from "../../../../RecoverablePluginError.js";
+import { humanizeDuration } from "../../../../humanizeDuration.js";
+import { logger } from "../../../../logger.js";
 import {
   UnknownUser,
   UserNotificationMethod,
   asSingleLine,
   isDiscordAPIError,
   renderUsername,
-} from "../../../../utils";
-import { MutesPlugin } from "../../../Mutes/MutesPlugin";
-import { MuteResult } from "../../../Mutes/types";
-import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction";
+} from "../../../../utils.js";
+import { MutesPlugin } from "../../../Mutes/MutesPlugin.js";
+import { MuteResult } from "../../../Mutes/types.js";
+import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction.js";
 import {
   formatReasonWithAttachments,
   formatReasonWithMessageLinkForAttachments,
-} from "../../functions/formatReasonForAttachments";
-import { parseReason } from "../../functions/parseReason";
-import { ModActionsPluginType } from "../../types";
+} from "../../functions/formatReasonForAttachments.js";
+import { parseReason } from "../../functions/parseReason.js";
+import { ModActionsPluginType } from "../../types.js";
 
 /**
  * The actual function run by both !mute and !forcemute.

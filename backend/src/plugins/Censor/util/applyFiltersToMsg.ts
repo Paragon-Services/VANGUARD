@@ -1,13 +1,21 @@
-import { Embed, Invite } from "discord.js";
+import { Invite } from "discord.js";
 import escapeStringRegexp from "escape-string-regexp";
 import { GuildPluginData } from "knub";
-import cloneDeep from "lodash.clonedeep";
-import { allowTimeout } from "../../../RegExpRunner";
-import { ZalgoRegex } from "../../../data/Zalgo";
-import { SavedMessage } from "../../../data/entities/SavedMessage";
-import { getInviteCodesInString, getUrlsInString, isGuildInvite, resolveInvite, resolveMember } from "../../../utils";
-import { CensorPluginType } from "../types";
-import { censorMessage } from "./censorMessage";
+import { allowTimeout } from "../../../RegExpRunner.js";
+import { ZalgoRegex } from "../../../data/Zalgo.js";
+import { ISavedMessageEmbedData, SavedMessage } from "../../../data/entities/SavedMessage.js";
+import {
+  getInviteCodesInString,
+  getUrlsInString,
+  inputPatternToRegExp,
+  isGuildInvite,
+  resolveInvite,
+  resolveMember,
+} from "../../../utils.js";
+import { CensorPluginType } from "../types.js";
+import { censorMessage } from "./censorMessage.js";
+
+type ManipulatedEmbedData = Partial<ISavedMessageEmbedData>;
 
 export async function applyFiltersToMsg(
   pluginData: GuildPluginData<CensorPluginType>,
@@ -19,7 +27,7 @@ export async function applyFiltersToMsg(
   let messageContent = savedMessage.data.content || "";
   if (savedMessage.data.attachments) messageContent += " " + JSON.stringify(savedMessage.data.attachments);
   if (savedMessage.data.embeds) {
-    const embeds = (savedMessage.data.embeds as Embed[]).map((e) => cloneDeep(e));
+    const embeds = (savedMessage.data.embeds as ManipulatedEmbedData[]).map((e) => structuredClone(e));
     for (const embed of embeds) {
       if (embed.type === "video") {
         // Ignore video descriptions as they're not actually shown on the embed
@@ -139,7 +147,8 @@ export async function applyFiltersToMsg(
   }
 
   // Filter regex
-  for (const regex of config.blocked_regex || []) {
+  for (const pattern of config.blocked_regex || []) {
+    const regex = inputPatternToRegExp(pattern);
     // We're testing both the original content and content + attachments/embeds here so regexes that use ^ and $ still match the regular content properly
     const matches =
       (await pluginData.state.regexRunner.exec(regex, savedMessage.data.content).catch(allowTimeout)) ||

@@ -1,9 +1,9 @@
 import { PermissionsBitField, Snowflake, TextChannel } from "discord.js";
-import { areCasesGlobal } from "../../../pluginUtils";
-import { renderUsername, resolveMember } from "../../../utils";
-import { hasDiscordPermissions } from "../../../utils/hasDiscordPermissions";
-import { LogsPlugin } from "../../Logs/LogsPlugin";
-import { modActionsEvt } from "../types";
+import { areCasesGlobal } from "../../../pluginUtils.js";
+import { renderUsername, resolveMember } from "../../../utils.js";
+import { hasDiscordPermissions } from "../../../utils/hasDiscordPermissions.js";
+import { LogsPlugin } from "../../Logs/LogsPlugin.js";
+import { modActionsEvt } from "../types.js";
 
 /**
  * Show an alert if a member with prior notes joins the server

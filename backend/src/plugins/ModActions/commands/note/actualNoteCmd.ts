@@ -1,11 +1,11 @@
 import { Attachment, ChatInputCommandInteraction, Message, User } from "discord.js";
 import { GuildPluginData } from "knub";
-import { UnknownUser, renderUsername } from "../../../../utils";
-import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction";
-import { formatReasonWithMessageLinkForAttachments } from "../../functions/formatReasonForAttachments";
-import { parseReason } from "../../functions/parseReason";
-import { ModActionsPluginType } from "../../types";
-import { noteMember } from "../../functions/noteMember";
+import { UnknownUser, renderUsername } from "../../../../utils.js";
+import { handleAttachmentLinkDetectionAndGetRestriction } from "../../functions/attachmentLinkReaction.js";
+import { formatReasonWithMessageLinkForAttachments } from "../../functions/formatReasonForAttachments.js";
+import { parseReason } from "../../functions/parseReason.js";
+import { ModActionsPluginType } from "../../types.js";
+import { noteMember } from "../../functions/noteMember.js";
 
 export async function actualNoteCmd(
   pluginData: GuildPluginData<ModActionsPluginType>,

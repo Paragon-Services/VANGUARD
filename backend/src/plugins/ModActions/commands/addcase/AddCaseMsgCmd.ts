@@ -1,9 +1,9 @@
-import { commandTypeHelpers as ct } from "../../../../commandTypes";
-import { CaseTypes } from "../../../../data/CaseTypes";
-import { hasPermission } from "../../../../pluginUtils";
-import { resolveUser } from "../../../../utils";
-import { modActionsMsgCmd } from "../../types";
-import { actualAddCaseCmd } from "./actualAddCaseCmd";
+import { commandTypeHelpers as ct } from "../../../../commandTypes.js";
+import { CaseTypes } from "../../../../data/CaseTypes.js";
+import { hasPermission } from "../../../../pluginUtils.js";
+import { resolveUser } from "../../../../utils.js";
+import { modActionsMsgCmd } from "../../types.js";
+import { actualAddCaseCmd } from "./actualAddCaseCmd.js";
 
 const opts = {
   mod: ct.member({ option: true }),
@@ -31,8 +31,10 @@ export const AddCaseMsgCmd = modActionsMsgCmd({
       return;
     }
 
+    const member = msg.member || (await msg.guild.members.fetch(msg.author.id));
+
     // The moderator who did the action is the message author or, if used, the specified -mod
-    let mod = msg.member;
+    let mod = member;
     if (args.mod) {
       if (!(await hasPermission(pluginData, "can_act_as_other", { message: msg }))) {
         pluginData.state.common.sendErrorMessage(msg, "You don't have permission to use -mod");
@@ -52,7 +54,7 @@ export const AddCaseMsgCmd = modActionsMsgCmd({
     actualAddCaseCmd(
       pluginData,
       msg,
-      msg.member,
+      member,
       mod,
       [...msg.attachments.values()],
       user,

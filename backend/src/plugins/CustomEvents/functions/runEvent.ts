@@ -1,15 +1,14 @@
-import { Message } from "discord.js";
 import { GuildPluginData } from "knub";
-import { TemplateSafeValueContainer } from "../../../templateFormatter";
-import { ActionError } from "../ActionError";
-import { addRoleAction } from "../actions/addRoleAction";
-import { createCaseAction } from "../actions/createCaseAction";
-import { makeRoleMentionableAction } from "../actions/makeRoleMentionableAction";
-import { makeRoleUnmentionableAction } from "../actions/makeRoleUnmentionableAction";
-import { messageAction } from "../actions/messageAction";
-import { moveToVoiceChannelAction } from "../actions/moveToVoiceChannelAction";
-import { setChannelPermissionOverridesAction } from "../actions/setChannelPermissionOverrides";
-import { CustomEventsPluginType, TCustomEvent } from "../types";
+import { TemplateSafeValueContainer } from "../../../templateFormatter.js";
+import { ActionError } from "../ActionError.js";
+import { addRoleAction } from "../actions/addRoleAction.js";
+import { createCaseAction } from "../actions/createCaseAction.js";
+import { makeRoleMentionableAction } from "../actions/makeRoleMentionableAction.js";
+import { makeRoleUnmentionableAction } from "../actions/makeRoleUnmentionableAction.js";
+import { messageAction } from "../actions/messageAction.js";
+import { moveToVoiceChannelAction } from "../actions/moveToVoiceChannelAction.js";
+import { setChannelPermissionOverridesAction } from "../actions/setChannelPermissionOverrides.js";
+import { CustomEventsPluginType, TCustomEvent } from "../types.js";
 
 export async function runEvent(
   pluginData: GuildPluginData<CustomEventsPluginType>,
@@ -38,7 +37,7 @@ export async function runEvent(
   } catch (e) {
     if (e instanceof ActionError) {
       if (event.trigger.type === "command") {
-        void pluginData.state.common.sendErrorMessage((eventData.msg as Message).channel, e.message);
+        void pluginData.state.common.sendErrorMessage(eventData.msg, e.message);
       } else {
         // TODO: Where to log action errors from other kinds of triggers?
       }

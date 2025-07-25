@@ -1,13 +1,13 @@
 import { GuildPluginData } from "knub";
 import { GuildMember, User } from "discord.js";
-import { LogsPluginType } from "../types";
-import { LogType } from "../../../data/LogType";
-import { log } from "../util/log";
-import { createTypedTemplateSafeValueContainer } from "../../../templateFormatter";
-import { memberToTemplateSafeMember } from "../../../utils/templateSafeObjects";
-import { UnknownUser } from "../../../utils";
+import { LogsPluginType } from "../types.js";
+import { LogType } from "../../../data/LogType.js";
+import { log } from "../util/log.js";
+import { createTypedTemplateSafeValueContainer } from "../../../templateFormatter.js";
+import { memberToTemplateSafeMember } from "../../../utils/templateSafeObjects.js";
+import { UnknownUser } from "../../../utils.js";
 
-interface LogMemberWarnData {
+export interface LogMemberWarnData {
   mod: GuildMember;
   member?: GuildMember | null;
   user?: User | UnknownUser | null;

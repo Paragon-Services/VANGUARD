@@ -1,9 +1,9 @@
-import { commandTypeHelpers as ct } from "../../../../commandTypes";
-import { canActOn, hasPermission } from "../../../../pluginUtils";
-import { resolveMember, resolveUser } from "../../../../utils";
-import { isBanned } from "../../functions/isBanned";
-import { modActionsMsgCmd } from "../../types";
-import { actualForceBanCmd } from "./actualForceBanCmd";
+import { commandTypeHelpers as ct } from "../../../../commandTypes.js";
+import { canActOn, hasPermission, resolveMessageMember } from "../../../../pluginUtils.js";
+import { resolveMember, resolveUser } from "../../../../utils.js";
+import { isBanned } from "../../functions/isBanned.js";
+import { modActionsMsgCmd } from "../../types.js";
+import { actualForceBanCmd } from "./actualForceBanCmd.js";
 
 const opts = {
   mod: ct.member({ option: true }),
@@ -31,8 +31,9 @@ export const ForceBanMsgCmd = modActionsMsgCmd({
     }
 
     // If the user exists as a guild member, make sure we can act on them first
-    const member = await resolveMember(pluginData.client, pluginData.guild, user.id);
-    if (member && !canActOn(pluginData, msg.member, member)) {
+    const authorMember = await resolveMessageMember(msg);
+    const targetMember = await resolveMember(pluginData.client, pluginData.guild, user.id);
+    if (targetMember && !canActOn(pluginData, authorMember, targetMember)) {
       pluginData.state.common.sendErrorMessage(msg, "Cannot forceban this user: insufficient permissions");
       return;
     }
@@ -45,7 +46,7 @@ export const ForceBanMsgCmd = modActionsMsgCmd({
     }
 
     // The moderator who did the action is the message author or, if used, the specified -mod
-    let mod = msg.member;
+    let mod = authorMember;
     if (args.mod) {
       if (!(await hasPermission(pluginData, "can_act_as_other", { message: msg }))) {
         pluginData.state.common.sendErrorMessage(msg, "You don't have permission to use -mod");

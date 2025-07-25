@@ -1,5 +1,5 @@
 import type { PermissionFlagsBits } from "discord.js";
-import { EMPTY_CHAR } from "../utils";
+import { EMPTY_CHAR } from "../utils.js";
 
 export const PERMISSION_NAMES = {
   AddReactions: "Add Reactions",
@@ -48,6 +48,7 @@ export const PERMISSION_NAMES = {
   ManageEvents: "Manage Events",
   ManageGuildExpressions: "Manage Expressions",
   SendVoiceMessages: "Send Voice Messages",
+  UseExternalApps: "Use External Apps",
   UseExternalSounds: "Use External Sounds",
   UseSoundboard: "Use Soundboard",
   ViewCreatorMonetizationAnalytics: "View Creator Monetization Analytics",

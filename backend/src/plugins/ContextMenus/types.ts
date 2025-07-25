@@ -1,15 +1,15 @@
 import { APIEmbed, Awaitable } from "discord.js";
 import { BasePluginType } from "knub";
-import z from "zod";
-import { GuildCases } from "../../data/GuildCases";
+import z from "zod/v4";
+import { GuildCases } from "../../data/GuildCases.js";
 
 export const zContextMenusConfig = z.strictObject({
-  can_use: z.boolean(),
-  can_open_mod_menu: z.boolean(),
+  can_use: z.boolean().default(false),
+  can_open_mod_menu: z.boolean().default(false),
 });
 
 export interface ContextMenuPluginType extends BasePluginType {
-  config: z.infer<typeof zContextMenusConfig>;
+  configSchema: typeof zContextMenusConfig;
   state: {
     cases: GuildCases;
   };

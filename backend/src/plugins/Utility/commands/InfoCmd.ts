@@ -1,20 +1,21 @@
 import { Snowflake } from "discord.js";
 import { getChannelId, getRoleId } from "knub/helpers";
-import { commandTypeHelpers as ct } from "../../../commandTypes";
-import { isValidSnowflake, noop, parseInviteCodeInput, resolveInvite, resolveUser } from "../../../utils";
-import { canReadChannel } from "../../../utils/canReadChannel";
-import { resolveMessageTarget } from "../../../utils/resolveMessageTarget";
-import { getChannelInfoEmbed } from "../functions/getChannelInfoEmbed";
-import { getCustomEmojiId } from "../functions/getCustomEmojiId";
-import { getEmojiInfoEmbed } from "../functions/getEmojiInfoEmbed";
-import { getGuildPreview } from "../functions/getGuildPreview";
-import { getInviteInfoEmbed } from "../functions/getInviteInfoEmbed";
-import { getMessageInfoEmbed } from "../functions/getMessageInfoEmbed";
-import { getRoleInfoEmbed } from "../functions/getRoleInfoEmbed";
-import { getServerInfoEmbed } from "../functions/getServerInfoEmbed";
-import { getSnowflakeInfoEmbed } from "../functions/getSnowflakeInfoEmbed";
-import { getUserInfoEmbed } from "../functions/getUserInfoEmbed";
-import { utilityCmd } from "../types";
+import { commandTypeHelpers as ct } from "../../../commandTypes.js";
+import { resolveMessageMember } from "../../../pluginUtils.js";
+import { isValidSnowflake, noop, parseInviteCodeInput, resolveInvite, resolveUser } from "../../../utils.js";
+import { canReadChannel } from "../../../utils/canReadChannel.js";
+import { resolveMessageTarget } from "../../../utils/resolveMessageTarget.js";
+import { getChannelInfoEmbed } from "../functions/getChannelInfoEmbed.js";
+import { getCustomEmojiId } from "../functions/getCustomEmojiId.js";
+import { getEmojiInfoEmbed } from "../functions/getEmojiInfoEmbed.js";
+import { getGuildPreview } from "../functions/getGuildPreview.js";
+import { getInviteInfoEmbed } from "../functions/getInviteInfoEmbed.js";
+import { getMessageInfoEmbed } from "../functions/getMessageInfoEmbed.js";
+import { getRoleInfoEmbed } from "../functions/getRoleInfoEmbed.js";
+import { getServerInfoEmbed } from "../functions/getServerInfoEmbed.js";
+import { getSnowflakeInfoEmbed } from "../functions/getSnowflakeInfoEmbed.js";
+import { getUserInfoEmbed } from "../functions/getUserInfoEmbed.js";
+import { utilityCmd } from "../types.js";
 
 export const InfoCmd = utilityCmd({
   trigger: "info",
@@ -79,7 +80,8 @@ export const InfoCmd = utilityCmd({
     if (userCfg.can_messageinfo) {
       const messageTarget = await resolveMessageTarget(pluginData, value);
       if (messageTarget) {
-        if (canReadChannel(messageTarget.channel, message.member)) {
+        const authorMember = await resolveMessageMember(message);
+        if (canReadChannel(messageTarget.channel, authorMember)) {
           const embed = await getMessageInfoEmbed(pluginData, messageTarget.channel.id, messageTarget.messageId);
           if (embed) {
             message.channel.send({ embeds: [{ color: embedColour, ...embed }] });

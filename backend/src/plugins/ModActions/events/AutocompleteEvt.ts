@@ -1,21 +1,21 @@
-import { modActionsEvt } from "../types";
-import { BanSlashCmdAutocomplete } from "../commands/ban/BanSlashCmd";
-import { AddCaseSlashCmdAutocomplete } from "../commands/addcase/AddCaseSlashCmd";
-import { ForceBanSlashCmdAutocomplete } from "../commands/forceban/ForceBanSlashCmd";
-import { ForceMuteSlashCmdAutocomplete } from "../commands/forcemute/ForceMuteSlashCmd";
-import { ForceUnmuteSlashCmdAutocomplete } from "../commands/forceunmute/ForceUnmuteSlashCmd";
-import { KickSlashCmdAutocomplete } from "../commands/kick/KickSlashCmd";
-import { MuteSlashCmdAutocomplete } from "../commands/mute/MuteSlashCmd";
-import { NoteSlashCmdAutocomplete } from "../commands/note/NoteSlashCmd";
-import { UnbanSlashCmdAutocomplete } from "../commands/unban/UnbanSlashCmd";
-import { UnmuteSlashCmdAutocomplete } from "../commands/unmute/UnmuteSlashCmd";
-import { UpdateSlashCmdAutocomplete } from "../commands/update/UpdateSlashCmd";
-import { WarnSlashCmdAutocomplete } from "../commands/warn/WarnSlashCmd";
-import { MassBanSlashCmdAutocomplete } from "../commands/massban/MassBanSlashCmd";
-import { MassKickSlashCmdAutocomplete } from "../commands/masskick/MassKickSlashCmd";
-import { MassMuteSlashCmdAutocomplete } from "../commands/massmute/MassMuteSlashCmd";
-import { MassUnbanSlashCmdAutocomplete } from "../commands/massunban/MassUnbanSlashCmd";
-import { MassWarnSlashCmdAutocomplete } from "../commands/masswarn/MassWarnSlashCmd";
+import { modActionsEvt } from "../types.js";
+import { BanSlashCmdAutocomplete } from "../commands/ban/BanSlashCmd.js";
+import { AddCaseSlashCmdAutocomplete } from "../commands/addcase/AddCaseSlashCmd.js";
+import { ForceBanSlashCmdAutocomplete } from "../commands/forceban/ForceBanSlashCmd.js";
+import { ForceMuteSlashCmdAutocomplete } from "../commands/forcemute/ForceMuteSlashCmd.js";
+import { ForceUnmuteSlashCmdAutocomplete } from "../commands/forceunmute/ForceUnmuteSlashCmd.js";
+import { KickSlashCmdAutocomplete } from "../commands/kick/KickSlashCmd.js";
+import { MuteSlashCmdAutocomplete } from "../commands/mute/MuteSlashCmd.js";
+import { NoteSlashCmdAutocomplete } from "../commands/note/NoteSlashCmd.js";
+import { UnbanSlashCmdAutocomplete } from "../commands/unban/UnbanSlashCmd.js";
+import { UnmuteSlashCmdAutocomplete } from "../commands/unmute/UnmuteSlashCmd.js";
+import { UpdateSlashCmdAutocomplete } from "../commands/update/UpdateSlashCmd.js";
+import { WarnSlashCmdAutocomplete } from "../commands/warn/WarnSlashCmd.js";
+import { MassBanSlashCmdAutocomplete } from "../commands/massban/MassBanSlashCmd.js";
+import { MassKickSlashCmdAutocomplete } from "../commands/masskick/MassKickSlashCmd.js";
+import { MassMuteSlashCmdAutocomplete } from "../commands/massmute/MassMuteSlashCmd.js";
+import { MassUnbanSlashCmdAutocomplete } from "../commands/massunban/MassUnbanSlashCmd.js";
+import { MassWarnSlashCmdAutocomplete } from "../commands/masswarn/MassWarnSlashCmd.js";
 
 export const AutocompleteEvt = modActionsEvt({
   event: "interactionCreate",

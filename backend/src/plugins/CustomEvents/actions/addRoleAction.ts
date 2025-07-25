@@ -1,15 +1,15 @@
 import { GuildPluginData } from "knub";
-import z from "zod";
-import { canActOn } from "../../../pluginUtils";
-import { renderTemplate, TemplateSafeValueContainer } from "../../../templateFormatter";
-import { resolveMember, zSnowflake } from "../../../utils";
-import { ActionError } from "../ActionError";
-import { catchTemplateError } from "../catchTemplateError";
-import { CustomEventsPluginType, TCustomEvent } from "../types";
+import z from "zod/v4";
+import { canActOn } from "../../../pluginUtils.js";
+import { renderTemplate, TemplateSafeValueContainer } from "../../../templateFormatter.js";
+import { resolveMember, zBoundedCharacters, zSnowflake } from "../../../utils.js";
+import { ActionError } from "../ActionError.js";
+import { catchTemplateError } from "../catchTemplateError.js";
+import { CustomEventsPluginType, TCustomEvent } from "../types.js";
 
 export const zAddRoleAction = z.strictObject({
   type: z.literal("add_role"),
-  target: zSnowflake,
+  target: zBoundedCharacters(0, 100),
   role: z.union([zSnowflake, z.array(zSnowflake)]),
 });
 export type TAddRoleAction = z.infer<typeof zAddRoleAction>;
