@@ -10,6 +10,10 @@ const envType = z.object({
   CLIENT_ID: z.string().min(16),
   CLIENT_SECRET: z.string().length(32),
   BOT_TOKEN: z.string().min(50),
+  AUTO_REGISTER_APPLICATION_COMMANDS: z
+    .string()
+    .optional()
+    .transform((str) => !str ? undefined : str.toLowerCase() === "true" || str === "1"),
 
   DASHBOARD_URL: z.string().url(),
   API_URL: z.string().url(),
@@ -55,7 +59,7 @@ const envType = z.object({
   DEBUG: z
     .string()
     .optional()
-    .transform((str) => str === "true"),
+    .transform((str) => !str ? undefined : str.toLowerCase() === "true" || str === "1"),
 
   NODE_ENV: z.string().default("development"),
 });

@@ -295,6 +295,8 @@ connect().then(async () => {
     globalPlugins: availableGlobalPlugins.map((obj) => obj.plugin),
 
     options: {
+      autoRegisterApplicationCommands: env.AUTO_REGISTER_APPLICATION_COMMANDS ?? true,
+
       canLoadGuild(guildId): Promise<boolean> {
         return allowedGuilds.isAllowed(guildId);
       },
