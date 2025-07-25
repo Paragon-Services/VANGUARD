@@ -17,8 +17,6 @@
     "@typescript-eslint/parser": "^7.0.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
-    "husky": "^3.0.9",
-    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^3.2.4",
     "ts-toolbelt": "^9.6.0",
@@ -29,5 +27,8 @@
     "shared",
     "backend",
     "dashboard"
-  ]
+  ],
+  "dependencies": {
+    "dotenv": "^16.5.0"
+  }
 }

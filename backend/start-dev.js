@@ -9,8 +9,10 @@ const cmd = process.platform === "win32" ? "npm.cmd" : "npm";
 
 childProcess.spawn(cmd, ["run", "start-bot-dev"], {
   stdio: [process.stdin, process.stdout, process.stderr],
+  shell: true,
 });
 
 childProcess.spawn(cmd, ["run", "start-api-dev"], {
   stdio: [process.stdin, process.stdout, process.stderr],
+  shell: true,
 });

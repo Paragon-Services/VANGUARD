@@ -1,9 +1,9 @@
 import { Message, Snowflake } from "discord.js";
 import { commandTypeHelpers as ct } from "../../../commandTypes.js";
 import { ContextResponse, deleteContextResponse } from "../../../pluginUtils.js";
-import { cleanMessages } from "../functions/cleanMessages.js";
 import { ModActionsPlugin } from "../../ModActions/ModActionsPlugin.js";
 import { SECONDS, noop } from "../../../utils.js";
+import { cleanMessages } from "../functions/cleanMessages.js";
 import { fetchChannelMessagesToClean } from "../functions/fetchChannelMessagesToClean.js";
 import { utilityCmd } from "../types.js";
 

@@ -1,9 +1,9 @@
 import { ExtendedMatchParams, GuildPluginData } from "knub";
 import { TemplateSafeValue, TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter.js";
 import { renderRecursively, resolveUser, StrictMessageContent, UnknownUser } from "../../../utils.js";
-import { CountersPlugin } from "../../Counters/CountersPlugin.js";
 import { TTag, TagsPluginType } from "../types.js";
 import { findTagByName } from "./findTagByName.js";
+import { CountersPlugin } from "../../Counters/CountersPlugin.js";
 import { counterValueToTemplateSafeCounterValue, userToTemplateSafeUser } from "../../../utils/templateSafeObjects.js";
 
 const MAX_TAG_FN_CALLS = 25;

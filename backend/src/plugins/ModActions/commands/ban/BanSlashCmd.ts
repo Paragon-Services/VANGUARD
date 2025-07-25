@@ -67,12 +67,6 @@ export const BanSlashCmd = modActionsSlashCmd({
     await interaction.deferReply({ ephemeral: true });
     const attachments = retrieveMultipleOptions(NUMBER_ATTACHMENTS_CASE_CREATION, options, "attachment");
 
-    if ((!options.reason || options.reason.trim() === "") && attachments.length < 1) {
-      pluginData.state.common.sendErrorMessage(interaction, "Text or attachment required", undefined, undefined, true);
-
-      return;
-    }
-
     let mod = interaction.member as GuildMember;
     const canActAsOther = await hasPermission(pluginData, "can_act_as_other", {
       channel: interaction.channel,
@@ -112,6 +106,7 @@ export const BanSlashCmd = modActionsSlashCmd({
       interaction.member as GuildMember,
       mod,
       contactMethods,
+      options["delete-days"] ?? undefined,
     );
   },
 });

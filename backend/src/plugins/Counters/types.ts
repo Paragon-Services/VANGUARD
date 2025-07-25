@@ -16,17 +16,17 @@ const MAX_COUNTERS = 69;
 const MAX_TRIGGERS_PER_COUNTER = 200;
 
 export const zTrigger = z.strictObject({
-    // Dummy type because name gets replaced by the property key in transform()
-    pretty_name: zBoundedCharacters(0, 100).nullable().default(null),
-    condition: zBoundedCharacters(1, 64).refine((str) => parseCounterConditionString(str) !== null, {
-      message: "Invalid counter trigger condition",
-    }),
-    reverse_condition: zBoundedCharacters(1, 64)
-      .refine((str) => parseCounterConditionString(str) !== null, {
-        message: "Invalid counter trigger reverse condition",
-      })
-      .optional(),
-  });
+  // Dummy type because name gets replaced by the property key in transform()
+  pretty_name: zBoundedCharacters(0, 100).nullable().default(null),
+  condition: zBoundedCharacters(1, 64).refine((str) => parseCounterConditionString(str) !== null, {
+    message: "Invalid counter trigger condition",
+  }),
+  reverse_condition: zBoundedCharacters(1, 64)
+    .refine((str) => parseCounterConditionString(str) !== null, {
+      message: "Invalid counter trigger reverse condition",
+    })
+    .optional(),
+});
 
 const zTriggerFromString = zBoundedCharacters(0, 100).transform((val, ctx) => {
   const parsedCondition = parseCounterConditionString(val);

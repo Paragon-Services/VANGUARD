@@ -11,7 +11,7 @@ const isAuthenticated = async () => {
 
 export const authGuard: NavigationGuard = async (to, from, next) => {
   if (await isAuthenticated()) return next();
-  window.location.href = `${process.env.API_URL}/auth/login`;
+  window.location.href = `${window.API_URL}/auth/login`;
 };
 
 export const loginCallbackGuard: NavigationGuard = async (to, from, next) => {
@@ -21,9 +21,11 @@ export const loginCallbackGuard: NavigationGuard = async (to, from, next) => {
   } else {
     window.location.href = `/?error=noAccess`;
   }
+  return next();
 };
 
 export const authRedirectGuard: NavigationGuard = async (to, form, next) => {
   if (await isAuthenticated()) return next("/dashboard");
-  window.location.href = `${process.env.API_URL}/auth/login`;
+  window.location.href = `${window.API_URL}/auth/login`;
+  return next();
 };

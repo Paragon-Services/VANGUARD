@@ -8,9 +8,9 @@ import { Case } from "../../../data/entities/Case.js";
 import { Mute } from "../../../data/entities/Mute.js";
 import { registerExpiringMute } from "../../../data/loops/expiringMutesLoop.js";
 import { areCasesGlobal } from "../../../pluginUtils.js";
-import { TemplateParseError, TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter.js";
 import { humanizeDuration } from "../../../humanizeDuration.js";
 import { LogsPlugin } from "../../Logs/LogsPlugin.js";
+import { TemplateParseError, TemplateSafeValueContainer, renderTemplate } from "../../../templateFormatter.js";
 import {
   UserNotificationMethod,
   UserNotificationResult,

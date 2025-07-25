@@ -5,6 +5,8 @@
 </template>
 
 <style scoped>
+  @reference "../style/app.css";
+
   li {
     padding-bottom: 1px;
 
@@ -15,7 +17,7 @@
     }
   }
 
-  a {
+  :deep(a) {
     @apply block;
     @apply py-2;
     @apply px-4;
@@ -26,7 +28,7 @@
     }
   }
 
-  .active a {
+  .active :deep(a) {
     @apply text-gray-200;
   }
 </style>

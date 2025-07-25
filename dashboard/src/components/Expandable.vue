@@ -20,7 +20,7 @@
 </template>
 
 <style scoped>
-  @import "../style/components.pcss";
+  @reference "../style/app.css";
 
   .expandable {
     --animation-time: 400ms;
@@ -72,11 +72,11 @@
 
   .inline-code,
   code:not([class]),
-  >>> code:not([class]) {
+  :deep(code:not([class])) {
     @apply bg-gray-900;
   }
 
-  .codeblock {
+  :deep(.codeblock) {
     box-shadow: none;
   }
 </style>
