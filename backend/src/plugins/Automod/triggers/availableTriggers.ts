@@ -32,6 +32,7 @@ import { ThreadDeleteTrigger } from "./threadDelete.js";
 import { ThreadUnarchiveTrigger } from "./threadUnarchive.js";
 import { UnbanTrigger } from "./unban.js";
 import { UnmuteTrigger } from "./unmute.js";
+import { VoiceStateChangedTrigger } from "./voiceStateChanged.js";
 import { WarnTrigger } from "./warn.js";
 
 export const availableTriggers: Record<string, AutomodTriggerBlueprint<any, any>> = {
@@ -47,6 +48,7 @@ export const availableTriggers: Record<string, AutomodTriggerBlueprint<any, any>
   member_leave: MemberLeaveTrigger,
   role_added: RoleAddedTrigger,
   role_removed: RoleRemovedTrigger,
+  voice_state_changed: VoiceStateChangedTrigger,
 
   message_spam: MessageSpamTrigger,
   mention_spam: MentionSpamTrigger,

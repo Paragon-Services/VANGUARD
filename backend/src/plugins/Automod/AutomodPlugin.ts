@@ -21,6 +21,7 @@ import { SetAntiraidCmd } from "./commands/SetAntiraidCmd.js";
 import { ViewAntiraidCmd } from "./commands/ViewAntiraidCmd.js";
 import { RunAutomodOnJoinEvt, RunAutomodOnLeaveEvt } from "./events/RunAutomodOnJoinLeaveEvt.js";
 import { RunAutomodOnMemberUpdate } from "./events/RunAutomodOnMemberUpdate.js";
+import { RunAutomodOnVoiceStateUpdate} from "./events/RunAutomodOnVoiceStateUpdate.js";
 import { runAutomodOnCounterTrigger } from "./events/runAutomodOnCounterTrigger.js";
 import { runAutomodOnMessage } from "./events/runAutomodOnMessage.js";
 import { runAutomodOnModAction } from "./events/runAutomodOnModAction.js";
@@ -60,6 +61,7 @@ export const AutomodPlugin = guildPlugin<AutomodPluginType>()({
   events: [
     RunAutomodOnJoinEvt,
     RunAutomodOnMemberUpdate,
+    RunAutomodOnVoiceStateUpdate,
     RunAutomodOnLeaveEvt,
     RunAutomodOnThreadCreate,
     RunAutomodOnThreadDelete,

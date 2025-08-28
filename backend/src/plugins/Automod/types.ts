@@ -150,6 +150,10 @@ export interface AutomodContext {
     added?: string[];
     removed?: string[];
   };
+  voiceStateChanged?: {
+    oldVoiceChannelId?: string;
+    newVoiceChannelId?: string;
+  };
   modAction?: {
     type: ModActionType;
     reason?: string;
