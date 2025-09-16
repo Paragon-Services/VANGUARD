@@ -7,6 +7,7 @@ import { GuildLogs } from "../../data/GuildLogs.js";
 import { GuildSavedMessages } from "../../data/GuildSavedMessages.js";
 import { Supporters } from "../../data/Supporters.js";
 import { CommonPlugin } from "../Common/CommonPlugin.js";
+import { zDelayString } from "../../utils.js";
 
 export const zUtilityConfig = z.strictObject({
   can_roles: z.boolean().default(false),
@@ -37,6 +38,7 @@ export const zUtilityConfig = z.strictObject({
   jumbo_size: z.number().default(128),
   can_avatar: z.boolean().default(false),
   avatar_spoilered: z.boolean().default(false),
+  archive_duration: zDelayString.nullable().default(null),
   info_on_single_result: z.boolean().default(true),
   autojoin_threads: z.boolean().default(true),
   embed_colour: z.number().default(0x2b2d31),

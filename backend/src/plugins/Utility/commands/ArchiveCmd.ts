@@ -1,8 +1,10 @@
+import moment from "moment-timezone";
 import { GuildPluginData } from "knub";
 import { commandTypeHelpers as ct } from "../../../commandTypes.js";
 import { SavedMessage } from "../../../data/entities/SavedMessage.js";
 import { getDashboardUrl } from "../../../pluginUtils.js";
 import { utilityCmd, UtilityPluginType } from "../types.js";
+import { convertDelayStringToMS } from "../../../utils.js";
 
 const DEFAULT_COUNT = 50;
 const MAX_COUNT = 1000;
@@ -13,7 +15,15 @@ export async function archiveMessages(
 ) {
   messagesToArchive = Array.from(messagesToArchive).sort((a, b) => (a.posted_at > b.posted_at ? 1 : -1));
 
-  const archiveId = await pluginData.state.archives.createFromSavedMessages(messagesToArchive, pluginData.guild);
+  const config = pluginData.config.get();
+  const archiveDurationMS = config.archive_duration ? convertDelayStringToMS(config.archive_duration, "d") : undefined;
+  const archiveDuration = archiveDurationMS ? moment.utc().add(archiveDurationMS, "milliseconds") : undefined;
+  const archiveId = await pluginData.state.archives.createFromSavedMessages(
+    messagesToArchive,
+    pluginData.guild,
+    archiveDuration
+  );
+
   const baseUrl = getDashboardUrl(pluginData);
 
   return pluginData.state.archives.getUrl(baseUrl, archiveId);
